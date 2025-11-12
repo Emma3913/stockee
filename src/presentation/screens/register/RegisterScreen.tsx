@@ -4,8 +4,8 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootStackParamList } from '../../../infrastructure/navigation/types';
-import { globalColors, globalStyles } from '../../../data';
 import CustomButton from '../../components/CommonButton';
+import { globalColors, globalStyles } from '../../theme/theme';
 
 const RegisterScreen = () => {
     const [email, setEmail] = useState('');
@@ -34,11 +34,11 @@ const RegisterScreen = () => {
         <View style={globalStyles.backgorund}>
             <View style={globalStyles.loginScreenContainerTop}>
                 <Text style={globalStyles.loginScreenContainerTopText}>Register now!</Text>
-                {/* <View style={globalStyles.initialScreenSubtitleContainerTop}>
+                <View style={globalStyles.initialScreenSubtitleContainerTop}>
                     <Text style={globalStyles.initialScreenSubtitleContainerTopText}>
                         Please enter your information
                     </Text>
-                </View> */}
+                </View>
             </View>
             <KeyboardAwareScrollView
                 contentContainerStyle={{ flexGrow: 1 }}

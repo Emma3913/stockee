@@ -6,11 +6,11 @@ import { GestureHandlerRefContext } from '@react-navigation/stack'
 
 const MainStack = () => {
     return (
-        // <GestureHandlerRefContext value={null}>
-        <NavigationContainer>
-            <StackNavigator />
-        </NavigationContainer>
-        // </GestureHandlerRefContext>
+        <GestureHandlerRefContext value={null}>
+            <NavigationContainer>
+                <StackNavigator />
+            </NavigationContainer>
+        </GestureHandlerRefContext>
     )
 }
 

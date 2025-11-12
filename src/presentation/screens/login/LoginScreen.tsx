@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RootStackParamList } from '../../../infrastructure/navigation/types';
-import { globalColors, globalStyles } from '../../../data';
 import CustomButton from '../../components/CommonButton';
+import { globalColors, globalStyles } from '../../theme/theme';
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
@@ -19,6 +19,7 @@ const LoginScreen = () => {
         setLoading(true)
         console.log("Login...")
         setTimeout(() => {
+            goToHomeScreen();
             setLoading(false)
         }, 2000);
 
@@ -26,6 +27,9 @@ const LoginScreen = () => {
 
     const goToProductsRegisterScreen = () => {
         navigation.navigate('Register');
+    }
+    const goToHomeScreen = () => {
+        navigation.navigate('Home');
     }
 
     return (
@@ -41,7 +45,7 @@ const LoginScreen = () => {
                 <View style={[globalStyles.loginScreenContainerBottom]}>
                     <Text style={globalStyles.loginScreenText}>Please enter the details below to continue</Text>
                     <View style={globalStyles.inputContainer}>
-                        <Icon name="email" size={20} color={globalColors.primary} />
+                        <Icon name="email" size={20} color={globalColors.light} />
                         <TextInput
                             style={globalStyles.input}
                             placeholder="Email Address"
@@ -54,7 +58,7 @@ const LoginScreen = () => {
                     </View>
 
                     <View style={globalStyles.inputContainer}>
-                        <Icon name="lock" size={22} color={globalColors.primary} />
+                        <Icon name="lock" size={22} color={globalColors.light} />
                         <TextInput
                             style={globalStyles.input}
                             placeholder="Password"
@@ -64,7 +68,7 @@ const LoginScreen = () => {
                             onChangeText={setPassword}
                         />
                         <TouchableOpacity onPress={() => setTogglePassword(!togglePassword)}>
-                            <Icon name={!togglePassword ? "visibility-off" : "visibility"} size={20} color={globalColors.primary} />
+                            <Icon name={!togglePassword ? "visibility-off" : "visibility"} size={20} color={globalColors.light} />
                         </TouchableOpacity>
                     </View>
 
@@ -93,7 +97,7 @@ const LoginScreen = () => {
                         <Text style={globalStyles.googleText}>Login with Google</Text>
                     </CustomButton>
                 </View>
-            </KeyboardAwareScrollView>c
+            </KeyboardAwareScrollView>
         </View>
     )
 }

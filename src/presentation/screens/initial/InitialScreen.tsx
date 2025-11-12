@@ -1,9 +1,9 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { globalStyles } from '../../../data';
 import { RootStackParamList } from '../../../infrastructure/navigation/types';
 import CustomButton from '../../components/CommonButton';
+import { globalStyles } from '../../theme/theme';
 
 const InitialScreen = () => {
 
@@ -16,9 +16,9 @@ const InitialScreen = () => {
     return (
         <View style={globalStyles.backgorund}>
             <View style={globalStyles.initialScreenCircleTop}><Text></Text></View>
-            <View style={globalStyles.initialScreenImageContainerTop}>
+            {/* <View style={globalStyles.initialScreenImageContainerTop}>
                 <Image source={require("../../assets/img/logo_stockee.png")} style={globalStyles.initialScreenImageTop} resizeMode="contain" />
-            </View>
+            </View> */}
             <View style={globalStyles.initialScreenContainerTop}>
                 <Text style={globalStyles.initialScreenContainerTopText}>Stockee.</Text>
                 <View style={globalStyles.initialScreenSubtitleContainerTop}>

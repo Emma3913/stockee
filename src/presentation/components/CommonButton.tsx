@@ -1,6 +1,7 @@
-import { View, Text, TouchableOpacity, StyleProp, ViewStyle } from 'react-native'
+import { Text, TouchableOpacity, StyleProp, ViewStyle } from 'react-native'
 import React from 'react'
-import { globalStyles } from '../../data';
+import { globalStyles } from '../theme/theme';
+
 
 type CustomButtonProps = {
     label?: string;
