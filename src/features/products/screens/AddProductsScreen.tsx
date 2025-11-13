@@ -11,25 +11,27 @@ import { sendDataProduct } from '../../../core/application/services/AuthService'
 import CameraScreen from '../../../ui/screens/CameraScreen'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { useAuthSessionStore } from '../../auth/state/authSession.store'
 
 const AddProductsScreen = () => {
 
+    const { uuidStore } = useAuthSessionStore();
+
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     // TODO: Ajustar la logica de esta pantalla para que todo lo haga el store
-    const tokenauth = "eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJFbW1hbnVlbCBBbGV4YW5kZXIiLCJyb2wiOiJBRE1JTiIsInN1YiI6ImV2YXF1ZXJvYXF1aW5vQGdtYWlsLmNvbSIsImlhdCI6MTc2MzAxNzI5NiwiZXhwIjoxNzYzMDIwODk2fQ.OLdooXNYp9xSbe35M7via1iZ4LDopAuKm1LanjlnFmU"
     const [productInfo, setProductInfo] = useState<ProductInfoRequest>({
         descripcion: '',
         codigoBarras: '',
         precio: 0,
         stock: 0,
-        uuidTienda: '8115df28-69dc-4e8c-a06f-4d53128ed39a',
+        uuidTienda: '',
         base64Image: ''
     });
 
     const [loading, setLoading] = useState(false);
 
     const handleAddProduct = async () => {
-        const result = await sendDataProduct(productInfo, tokenauth);
+        const result = await sendDataProduct(productInfo);
     }
 
     const handleSelectImage = async () => {

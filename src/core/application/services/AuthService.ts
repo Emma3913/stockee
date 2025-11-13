@@ -64,49 +64,33 @@ export async function resetPasswordByEmail(email: string): Promise<string> {
 
 export async function sendDataProduct(
   productoInfo: ProductInfoRequest,
-  token: string,
 ): Promise<ProductInfoResponse> {
   try {
-    console.log('Enviando producto:', productoInfo);
-    const url = `${backendUrl}/productos/guardar`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+    const response = await axiosInstance.post<ProductInfoResponse>(
+      '/producto/guardar',
+      {
+        codigoBarras: productoInfo.codigoBarras,
+        descripcion: productoInfo.descripcion,
+        precio: productoInfo.precio,
+        stock: productoInfo.stock,
+        urlImagen: productoInfo.urlImagen,
+        estatus: productoInfo.estatus,
+        uuidTienda: productoInfo.uuidTienda,
+        base64Image: productoInfo.base64Image,
       },
-      body: JSON.stringify(productoInfo),
-    });
+    );
 
-    const data: ProductInfoResponse | ErrorResponse = await response.json();
-
-    if (!response.ok) {
-      const errorData = data as ErrorResponse;
-      console.error('Error desde servidor:', errorData);
-
-      let errorMessage = errorData.message || 'Error al guardar el producto';
-
-      if (errorMessage.includes('código de barras')) {
-        errorMessage = 'Error en el código de barras: ' + errorMessage;
-      } else if (errorMessage.includes('precio')) {
-        errorMessage = 'Error en el precio: ' + errorMessage;
-      } else if (errorMessage.includes('stock')) {
-        errorMessage = 'Error en el stock: ' + errorMessage;
-      }
-
-      throw new Error(errorMessage);
-    }
-
-    console.log('Producto guardado exitosamente:', data);
-    return data as ProductInfoResponse;
+    return response.data;
   } catch (error: any) {
-    if (error instanceof Error) {
-      console.error('Error en sendDataProduct:', error.message);
-      throw error;
+    if (error.response) {
+      throw new Error(
+        error.response.data?.message ||
+          `Error ${error.response.status}: ${error.response.statusText}`,
+      );
+    } else if (error.request) {
+      throw new Error('No se pudo conectar con el servidor');
     } else {
-      console.error('Error desconocido en sendDataProduct:', error);
-      throw new Error('Error de conexión al enviar el producto');
+      throw new Error('Error inesperado al procesar la solicitud');
     }
   }
 }
