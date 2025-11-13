@@ -1,25 +1,26 @@
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Image } from 'react-native'
+import { View, Text, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RootStackParamList } from '../../../infrastructure/navigation/types';
-import CustomButton from '../../components/CommonButton';
-import { globalColors, globalStyles } from '../../theme/theme';
+import { RootStackParamList } from '../../../app/navigation/types';
+import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
+import CustomButton from '../../../ui/components/CommonButton';
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [togglePassword, setTogglePassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const handleLogin = () => {
+    const handleLogin = () => { // TODO: Hacer la conexion real al servicio
         setLoading(true)
         console.log("Login...")
         setTimeout(() => {
-            goToHomeScreen();
             setLoading(false)
         }, 2000);
 
@@ -28,14 +29,17 @@ const LoginScreen = () => {
     const goToProductsRegisterScreen = () => {
         navigation.navigate('Register');
     }
-    const goToHomeScreen = () => {
-        navigation.navigate('Home');
-    }
 
     return (
         <View style={globalStyles.backgorund}>
             <View style={globalStyles.loginScreenContainerTop}>
-                <Text style={globalStyles.loginScreenContainerTopText}>Login with your account</Text>
+                <Text style={globalStyles.loginScreenContainerTopText}>
+                    Regístrate ahora</Text>
+                <View style={globalStyles.initialScreenSubtitleContainerTop}>
+                    <Text style={globalStyles.initialScreenSubtitleContainerTopText}>
+                        Por favor ingresa tu información.
+                    </Text>
+                </View>
             </View>
             <KeyboardAwareScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
@@ -43,58 +47,53 @@ const LoginScreen = () => {
                 extraScrollHeight={250}
             >
                 <View style={[globalStyles.loginScreenContainerBottom]}>
-                    <Text style={globalStyles.loginScreenText}>Please enter the details below to continue</Text>
+                    <Text style={globalStyles.loginScreenText}>Asegúrate de que tus datos sean correcto</Text>
+
                     <View style={globalStyles.inputContainer}>
-                        <Icon name="email" size={20} color={globalColors.light} />
+                        <Icon name="badge" size={20} color={globalColors.dark} />
                         <TextInput
                             style={globalStyles.input}
-                            placeholder="Email Address"
+                            placeholder="Nombre completo"
                             placeholderTextColor="#aaa"
-                            keyboardType="email-address"
+                            keyboardType="default"
                             autoCapitalize="none"
-                            value={email}
-                            onChangeText={setEmail}
+                            value={name}
+                            onChangeText={setName}
                         />
                     </View>
 
                     <View style={globalStyles.inputContainer}>
-                        <Icon name="lock" size={22} color={globalColors.light} />
+                        <Icon name="email" size={22} color={globalColors.dark} />
                         <TextInput
                             style={globalStyles.input}
-                            placeholder="Password"
+                            placeholder="Correo electrónico"
+                            placeholderTextColor="#aaa"
+                            keyboardType='email-address'
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+                    </View>
+                    <View style={globalStyles.inputContainer}>
+                        <Icon name="lock" size={22} color={globalColors.dark} />
+                        <TextInput
+                            style={globalStyles.input}
+                            placeholder="Contraseña"
                             placeholderTextColor="#aaa"
                             secureTextEntry={!togglePassword}
                             value={password}
                             onChangeText={setPassword}
                         />
                         <TouchableOpacity onPress={() => setTogglePassword(!togglePassword)}>
-                            <Icon name={!togglePassword ? "visibility-off" : "visibility"} size={20} color={globalColors.light} />
+                            <Icon name={!togglePassword ? "visibility-off" : "visibility"} size={20} color={globalColors.dark} />
                         </TouchableOpacity>
                     </View>
-
-                    <Text style={globalStyles.forgotText}>Forgot Password?</Text>
 
                     <CustomButton onPressButton={handleLogin} styleButton={globalStyles.loginScreenButton}>
                         {loading ? (
                             <ActivityIndicator color={globalColors.light} size={22} />
                         ) : (
-                            <Text style={globalStyles.signInText}>Sign In</Text>
+                            <Text style={globalStyles.signInText}>Enviar información</Text>
                         )}
-                    </CustomButton>
-
-                    <Text style={globalStyles.dontHaveAccount}>Don't Have Any Account?{" "}
-                        <CustomButton onPressButton={goToProductsRegisterScreen}>
-                            <Text style={globalStyles.createAccount}>
-                                Create Account
-                            </Text>
-                        </CustomButton>
-                    </Text>
-
-                    <Text style={globalStyles.orText}>Or</Text>
-
-                    <CustomButton styleButton={globalStyles.googleButton}>
-                        <Image source={{ uri: 'https://developers.google.com/identity/images/g-logo.png', }} style={globalStyles.googleIcon} />
-                        <Text style={globalStyles.googleText}>Login with Google</Text>
                     </CustomButton>
                 </View>
             </KeyboardAwareScrollView>
@@ -102,4 +101,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen
+export default RegisterScreen
