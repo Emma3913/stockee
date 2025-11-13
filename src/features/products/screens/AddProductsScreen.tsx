@@ -8,6 +8,7 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import { Button } from '@react-navigation/elements'
 import CustomButton from '../../../ui/components/CommonButton'
 import { sendDataProduct } from '../../../core/application/services/AuthService'
+import CameraScreen from '../../../ui/screens/CameraScreen'
 
 const AddProductsScreen = () => {
     // TODO: Ajustar la logica de esta pantalla para que todo lo haga el store
@@ -69,6 +70,7 @@ const AddProductsScreen = () => {
                     autoCapitalize="none"
                     placeholderTextColor="#999"
                 />
+                <CameraScreen />
                 <Text style={globalStyles.label}>Stock *</Text>
                 <TextInput
                     style={globalStyles.input}
@@ -87,15 +89,6 @@ const AddProductsScreen = () => {
                     keyboardType="numeric"
                     placeholderTextColor="#999"
                 />
-                {/* <Text style={globalStyles.label}>Imagen *</Text>
-                <TextInput
-                    style={globalStyles.input}
-                    placeholder="Ej: $509"
-                    value={productInfo?.precio.toString()}
-                    onChangeText={(text) => setProductInfo(prev => ({ ...prev, precio: parseInt(text) || 0 }))}
-                    keyboardType="numeric"
-                    placeholderTextColor="#999"
-                /> */}
 
                 <CustomButton onPressButton={handleSelectImage}>
                     <Text>

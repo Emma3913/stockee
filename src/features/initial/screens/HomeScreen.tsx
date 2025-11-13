@@ -10,7 +10,6 @@ import { useAuthSessionStore } from '../../auth/state/authSession.store';
 const HomeScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
     const { clearSession } = useAuthSessionStore();
 
     const features = [
