@@ -3,66 +3,61 @@ import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RootStackParamList } from '../../../app/navigation/types';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
 import CustomButton from '../../../ui/components/CommonButton';
-import { login } from '../../../core/application/services/AuthService';
-import { useAuth } from '../../../app/providers/AuthContext';
+import { useAppStore } from '../../store/useStoreApp';
+import { validateEmail } from '../../../app/utils';
+import { useAuthSessionStore } from '../state/authSession.store';
+
 
 
 const LoginScreen = () => {
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [togglePassword, setTogglePassword] = useState(false);
-    const { dispatch, state } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
     const [formError, setFormError] = useState('');
 
-    const validateEmail = (value: string) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-    };
+    const { loginRequest, setLoginRequest, loginWithEmailAndPassword } = useAppStore();
+    const { setSession } = useAuthSessionStore();
+
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async () => {
         setFormError('');
-        if (!validateEmail(email)) {
+
+        if (!validateEmail(loginRequest.email)) {
             setFormError('Ingresa un correo válido.');
             return;
         }
-        if (!password) {
+        if (!loginRequest.password) {
             setFormError('La contraseña es obligatoria.');
             return;
         }
+
         setLoading(true);
-        dispatch({ type: 'SET_LOADING', payload: true });
         try {
-            const result = await login({ email: email.trim(), password });
-            if (result && result.token) {
-                dispatch({ type: 'LOGIN_SUCCESS', payload: result });
-                navigation.navigate('Home');
+            const result = await loginWithEmailAndPassword();
+
+            if (result?.token) {
+                await setSession(result);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
             } else {
-                dispatch({ type: 'LOGIN_ERROR', payload: 'Usuario o contraseña incorrectos' });
+                setFormError('Usuario o contraseña incorrectos');
             }
-        } catch (err: any) {
-            dispatch({ type: 'LOGIN_ERROR', payload: 'Usuario o contraseña incorrectos' });
+        } catch (err) {
+            setFormError('Usuario o contraseña incorrectos');
         } finally {
             setLoading(false);
-            dispatch({ type: 'SET_LOADING', payload: false });
         }
     };
 
 
-
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    const goToProductsRegisterScreen = () => {
-        navigation.navigate('Register');
-    }
-    const goToHomeScreen = () => {
-        navigation.navigate('Home');
-    }
-    const goToResetPasswordScreen = () => {
-        navigation.navigate('ResetPassword');
-    }
+    const goToRegisterScreen = () => navigation.navigate('Register');
+    const goToResetPasswordScreen = () => navigation.navigate('ResetPassword');
 
     return (
         <View style={globalStyles.backgorund}>
@@ -85,8 +80,10 @@ const LoginScreen = () => {
                             placeholderTextColor="#aaa"
                             keyboardType="email-address"
                             autoCapitalize="none"
-                            value={email}
-                            onChangeText={setEmail}
+                            value={loginRequest.email}
+                            onChangeText={(value) =>
+                                setLoginRequest({ ...loginRequest, email: value })
+                            }
                         />
                     </View>
 
@@ -97,8 +94,10 @@ const LoginScreen = () => {
                             placeholder="Contraseña"
                             placeholderTextColor="#aaa"
                             secureTextEntry={!togglePassword}
-                            value={password}
-                            onChangeText={setPassword}
+                            value={loginRequest.password}
+                            onChangeText={(value) =>
+                                setLoginRequest({ ...loginRequest, password: value })
+                            }
                         />
                         <TouchableOpacity onPress={() => setTogglePassword(!togglePassword)}>
                             <Icon name={!togglePassword ? "visibility-off" : "visibility"} size={20} color={globalColors.dark} />
@@ -117,10 +116,9 @@ const LoginScreen = () => {
                                 iniciar sesión</Text>
                         )}
                     </CustomButton>
-
                     <Text style={globalStyles.dontHaveAccount}>¿No tienes ninguna cuenta?{" "}
                     </Text>
-                    <CustomButton onPressButton={goToProductsRegisterScreen}>
+                    <CustomButton onPressButton={goToRegisterScreen}>
                         <Text style={globalStyles.createAccount}>
                             Contáctanos
                         </Text>

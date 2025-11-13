@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { RootStackParamList } from '../../../app/navigation/types';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
 import CustomButton from '../../../ui/components/CommonButton';
 

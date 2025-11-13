@@ -1,21 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
 
-import MainStack from './src/app/navigation/MainStack'
 import { globalStyles } from './src/ui/styles/globalStyles'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { AuthProvider } from './src/app/providers/AuthContext'
+import { NavigationContainer } from '@react-navigation/native'
+import StackNavigator from './src/app/navigation/StackNavigator'
+import { useAuthSessionStore } from './src/features/auth/state/authSession.store'
 
 const App = () => {
+  const { initializeAuth, isLoading } = useAuthSessionStore();
+
+  useEffect(() => {
+    initializeAuth();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={[globalStyles.backgorund, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={globalStyles.backgorund}>
-        <AuthProvider>
-          <MainStack />
-        </AuthProvider>
-      </View>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
     </GestureHandlerRootView>
-  )
-}
+  );
+};
 
-export default App
+export default App;

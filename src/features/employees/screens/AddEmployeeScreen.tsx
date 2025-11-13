@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { RootStackParamList } from '../../../app/navigation/types';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { registerUsuario } from '../../../core/application/services/AuthService';
 import { globalStyles } from '../../../ui/styles/globalStyles';
 

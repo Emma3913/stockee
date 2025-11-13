@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation, RouteProp, useRoute, NavigationProp } from '@react-navigation/native';
 import { ClienteService } from '../../../core/application/services/EmployeeService';
-import { RootStackParamList } from '../../../app/navigation/types';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalStyles } from '../../../ui/styles/globalStyles';
 
 type RouteProps = {

@@ -3,15 +3,13 @@ import React from 'react'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { globalStyles } from '../../../ui/styles/globalStyles';
 import CustomButton from '../../../ui/components/CommonButton';
-import { RootStackParamList } from '../../../app/navigation/types';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 
 const InitialScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const goToProductsLoginScreen = () => {
-        navigation.navigate('Login');
-    }
+    const goToProductsLoginScreen = () => navigation.navigate('Login');
 
     return (
         <View style={globalStyles.backgorund}>

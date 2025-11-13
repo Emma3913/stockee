@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../../../ui/components/CommonButton'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { RootStackParamList } from '../../../app/navigation/types'
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { sendPasswordResetEmail } from '../../../core/application/services/AuthService'
 
 const ResetPasswordScreen = () => {
@@ -31,9 +31,13 @@ const ResetPasswordScreen = () => {
             setMessage(response.message || 'Se ha enviado un correo con tu nueva contraseña.');
 
             setTimeout(() => {
-                navigation.navigate('Login');
+                if (response != null) {
+                    navigation.navigate('Login');
+                }
+
             }, 3000)
         } catch (err: any) {
+            console.log("cath", err.message)
             setError(err.message || 'Ocurrió un error al enviar el correo.');
         } finally {
             setLoading(false);
@@ -72,8 +76,8 @@ const ResetPasswordScreen = () => {
                             onChangeText={setEmail}
                         />
                     </View>
-                    {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
-                    {message ? <Text style={{ color: "green" }}>{message}</Text> : null}
+                    {error ? <Text style={{ color: "red", textAlign: 'center' }}>{error}</Text> : null}
+                    {message ? <Text style={{ color: "green", textAlign: 'center' }}>{message}</Text> : null}
                     <CustomButton onPressButton={handleSubmit} styleButton={globalStyles.resetPasswordScreenButton}>
                         {loading ? (
                             <ActivityIndicator color={globalColors.light} size={22} />

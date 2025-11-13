@@ -1,15 +1,15 @@
-import { AuthResponseDTO } from '../../core/domain/dto/dto';
+import { LoginResponse } from '../../core/domain/entities/Login';
 
 export interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
-  user: AuthResponseDTO['user'] | null;
+  user: LoginResponse['nombre'] | null;
   token: string | null;
   error: string | null;
 }
 
 export type AuthAction =
-  | { type: 'LOGIN_SUCCESS'; payload: AuthResponseDTO }
+  | { type: 'LOGIN_SUCCESS'; payload: LoginResponse }
   | { type: 'LOGIN_ERROR'; payload: string }
   | { type: 'LOGOUT' }
   | { type: 'SET_LOADING'; payload: boolean };
@@ -28,7 +28,7 @@ export function authReducer(state: AuthState, action: AuthAction): AuthState {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
+        user: action.payload.nombre,
         token: action.payload.token,
         error: null,
         isLoading: false,
