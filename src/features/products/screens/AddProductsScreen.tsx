@@ -9,8 +9,12 @@ import { Button } from '@react-navigation/elements'
 import CustomButton from '../../../ui/components/CommonButton'
 import { sendDataProduct } from '../../../core/application/services/AuthService'
 import CameraScreen from '../../../ui/screens/CameraScreen'
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
 
 const AddProductsScreen = () => {
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     // TODO: Ajustar la logica de esta pantalla para que todo lo haga el store
     const tokenauth = "eyJhbGciOiJIUzI1NiJ9.eyJub21icmUiOiJFbW1hbnVlbCBBbGV4YW5kZXIiLCJyb2wiOiJBRE1JTiIsInN1YiI6ImV2YXF1ZXJvYXF1aW5vQGdtYWlsLmNvbSIsImlhdCI6MTc2MzAxNzI5NiwiZXhwIjoxNzYzMDIwODk2fQ.OLdooXNYp9xSbe35M7via1iZ4LDopAuKm1LanjlnFmU"
     const [productInfo, setProductInfo] = useState<ProductInfoRequest>({
@@ -44,7 +48,8 @@ const AddProductsScreen = () => {
         }
     };
 
-    console.log(productInfo.base64Image);
+    const goToCameraScreen = () => navigation.navigate('Camera');
+
 
     return (
 
@@ -61,7 +66,12 @@ const AddProductsScreen = () => {
                     placeholderTextColor="#999"
                 />
                 <Text style={globalStyles.label}>Código de barras *</Text>
-                <TextInput
+                <CustomButton onPressButton={goToCameraScreen}>
+                    <Text>
+                        Abrir cámara
+                    </Text>
+                </CustomButton>
+                {/* <TextInput
                     style={globalStyles.input}
                     placeholder="2734872873"
                     value={productInfo.codigoBarras}
@@ -69,8 +79,7 @@ const AddProductsScreen = () => {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     placeholderTextColor="#999"
-                />
-                <CameraScreen />
+                /> */}
                 <Text style={globalStyles.label}>Stock *</Text>
                 <TextInput
                     style={globalStyles.input}

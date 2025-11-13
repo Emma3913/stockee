@@ -12,4 +12,5 @@ export type RootStackParamList = {
   Sales: undefined;
   ResetPassword: undefined;
   AddProducts: undefined;
+  Camera: undefined;
 };

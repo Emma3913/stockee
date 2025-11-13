@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Button, Linking } from 'react-native';
-import { Camera, useCameraPermission, useMicrophonePermission } from 'react-native-vision-camera';
+import { Camera, useCameraPermission, useCodeScanner, useMicrophonePermission } from 'react-native-vision-camera';
 
 export default function CameraScreen() {
     const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
@@ -46,12 +46,20 @@ export default function CameraScreen() {
         );
     }
 
+    const codeScanner = useCodeScanner({
+        codeTypes: ['qr', 'ean-13'],
+        onCodeScanned: (codes) => {
+            console.log(`Scanned ${codes.length} codes!`)
+        }
+    })
+
     return (
         <View style={{ flex: 1 }}>
             <Camera
                 style={{ flex: 1 }}
                 device={backDevice}
                 isActive={true}
+                codeScanner={codeScanner}
             />
         </View>
     );

@@ -15,6 +15,7 @@ import InventoryScreen from '../../features/inventory/screens/InventoryScreen';
 import ResetPasswordScreen from '../../features/auth/screens/ResetPasswordScreen';
 import AddProductsScreen from '../../features/products/screens/AddProductsScreen';
 import { useAuthSessionStore } from '../../features/auth/state/authSession.store';
+import CameraScreen from '../../ui/screens/CameraScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -39,6 +40,7 @@ const StackNavigator = () => {
                     <Stack.Screen name="AddProducts" component={AddProductsScreen} />
                     <Stack.Screen name="Inventory" component={InventoryScreen} />
                     <Stack.Screen name="Sales" component={SalesScreen} />
+                    <Stack.Screen name="Camera" component={CameraScreen} />
                 </>
             ) : (
                 <>
