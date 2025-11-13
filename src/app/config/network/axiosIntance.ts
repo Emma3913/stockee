@@ -1,16 +1,25 @@
 import axios, { AxiosInstance } from 'axios';
-import { useAuthSessionStore } from '../../../features/auth/state/authSession.store';
-
-const { token } = useAuthSessionStore();
-
-console.log('token', token);
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://unkneaded-deepeningly-sandra.ngrok-free.dev/',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
   },
 });
+
+axiosInstance.interceptors.request.use(
+  config => {
+    const { token } =
+      require('../../../features/auth/state/authSession.store').useAuthSessionStore.getState();
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
 
 export default axiosInstance;

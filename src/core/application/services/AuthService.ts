@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axiosInstance from '../../../app/config/network/axiosIntance';
 import { LoginRequest, LoginResponse } from '../../domain/entities/Login';
 import {
@@ -65,17 +66,19 @@ export async function resetPasswordByEmail(email: string): Promise<string> {
 export async function sendDataProduct(
   productoInfo: ProductInfoRequest,
 ): Promise<ProductInfoResponse> {
+  console.log(productoInfo);
+  const uuidStore = await AsyncStorage.getItem('UUID_STORE');
   try {
     const response = await axiosInstance.post<ProductInfoResponse>(
-      '/producto/guardar',
+      'productos/guardar',
       {
         codigoBarras: productoInfo.codigoBarras,
-        descripcion: productoInfo.descripcion,
+        descripcion: 'pdkjdsa',
         precio: productoInfo.precio,
         stock: productoInfo.stock,
         urlImagen: productoInfo.urlImagen,
         estatus: productoInfo.estatus,
-        uuidTienda: productoInfo.uuidTienda,
+        uuidTienda: uuidStore,
         base64Image: productoInfo.base64Image,
       },
     );

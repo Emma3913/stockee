@@ -13,7 +13,12 @@ import {
 export type ProductsSliceType = {
   productInfoResponse: ProductInfoResponse;
   productInfoRequest: ProductInfoRequest;
-  setProductInfoRequest: (productInfoRequest: ProductInfoRequest) => void;
+  //   setProductInfoRequest: (productInfoRequest: ProductInfoRequest) => void;
+  setProductInfoRequest: (
+    updater:
+      | ProductInfoRequest
+      | ((prev: ProductInfoRequest) => ProductInfoRequest),
+  ) => void;
   sendDataProduct: () => Promise<ProductInfoResponse>;
 };
 
@@ -48,7 +53,14 @@ export const createProductsSlice: StateCreator<
     success: false,
   },
 
-  setProductInfoRequest: productInfoRequest => set({ productInfoRequest }),
+  //   setProductInfoRequest: productInfoRequest => set({ productInfoRequest }),
+  setProductInfoRequest: updater =>
+    set(state => ({
+      productInfoRequest:
+        typeof updater === 'function'
+          ? updater(state.productInfoRequest)
+          : updater,
+    })),
 
   sendDataProduct: async () => {
     const response = await sendDataProduct(get().productInfoRequest);

@@ -12,27 +12,32 @@ import CameraScreen from '../../../ui/screens/CameraScreen'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useAuthSessionStore } from '../../auth/state/authSession.store'
+import { useAppStore } from '../../store/useStoreApp'
 
 const AddProductsScreen = () => {
-
     const { uuidStore } = useAuthSessionStore();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    // TODO: Ajustar la logica de esta pantalla para que todo lo haga el store
-    const [productInfo, setProductInfo] = useState<ProductInfoRequest>({
-        descripcion: '',
-        codigoBarras: '',
-        precio: 0,
-        stock: 0,
-        uuidTienda: '',
-        base64Image: ''
-    });
 
+    const { productInfoRequest, setProductInfoRequest, sendDataProduct } = useAppStore();
     const [loading, setLoading] = useState(false);
 
     const handleAddProduct = async () => {
-        const result = await sendDataProduct(productInfo);
-    }
+        setLoading(true);
+        try {
+            const result = await sendDataProduct();
+            if (result?.success) {
+                navigation.navigate('Home')
+            } else {
+                navigation.navigate('Home')
+                console.log('Usuario o contraseña incorrectos');
+            }
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSelectImage = async () => {
         const result = await launchImageLibrary({
@@ -42,7 +47,8 @@ const AddProductsScreen = () => {
 
         if (result.assets && result.assets.length > 0) {
             const image = result.assets[0];
-            setProductInfo((prev) => ({
+
+            setProductInfoRequest((prev) => ({
                 ...prev,
                 urlImagen: image.uri || '',
                 base64Image: image.base64 || '',
@@ -63,31 +69,37 @@ const AddProductsScreen = () => {
                 <TextInput
                     style={globalStyles.input}
                     placeholder=""
-                    value={productInfo?.descripcion}
-                    onChangeText={(text) => setProductInfo(prev => ({ ...prev, descripcion: text }))}
+                    value={productInfoRequest.descripcion}
+                    onChangeText={(value) =>
+                        setProductInfoRequest({ ...productInfoRequest, descripcion: value })
+                    }
                     placeholderTextColor="#999"
                 />
                 <Text style={globalStyles.label}>Código de barras *</Text>
-                <CustomButton onPressButton={goToCameraScreen}>
+                {/* <CustomButton onPressButton={goToCameraScreen}>
                     <Text>
                         Abrir cámara
                     </Text>
-                </CustomButton>
-                {/* <TextInput
+                </CustomButton> */}
+                <TextInput
                     style={globalStyles.input}
                     placeholder="2734872873"
-                    value={productInfo.codigoBarras}
-                    onChangeText={(text) => setProductInfo(prev => ({ ...prev, codigoBarras: text }))}
+                    value={productInfoRequest.codigoBarras}
+                    onChangeText={(value) =>
+                        setProductInfoRequest({ ...productInfoRequest, codigoBarras: value })
+                    }
                     keyboardType="email-address"
                     autoCapitalize="none"
                     placeholderTextColor="#999"
-                /> */}
+                />
                 <Text style={globalStyles.label}>Stock *</Text>
                 <TextInput
                     style={globalStyles.input}
                     placeholder="Ej: 23"
-                    value={productInfo?.stock.toString()}
-                    onChangeText={(text) => setProductInfo(prev => ({ ...prev, stock: parseInt(text) || 0 }))}
+                    value={productInfoRequest.stock !== undefined ? String(productInfoRequest.stock) : ''}
+                    onChangeText={(value) =>
+                        setProductInfoRequest({ ...productInfoRequest, stock: parseInt(value, 10) || 0 })
+                    }
                     keyboardType="numeric"
                     placeholderTextColor="#999"
                 />
@@ -95,8 +107,10 @@ const AddProductsScreen = () => {
                 <TextInput
                     style={globalStyles.input}
                     placeholder="Ej: $509"
-                    value={productInfo?.precio.toString()}
-                    onChangeText={(text) => setProductInfo(prev => ({ ...prev, precio: parseInt(text) || 0 }))}
+                    value={productInfoRequest.precio !== undefined ? String(productInfoRequest.precio) : ''}
+                    onChangeText={(value) =>
+                        setProductInfoRequest({ ...productInfoRequest, precio: parseInt(value, 10) || 0 })
+                    }
                     keyboardType="numeric"
                     placeholderTextColor="#999"
                 />
@@ -107,9 +121,9 @@ const AddProductsScreen = () => {
                     </Text>
                 </CustomButton>
 
-                {productInfo.urlImagen ? (
+                {productInfoRequest.urlImagen ? (
                     <Image
-                        source={{ uri: productInfo.urlImagen }}
+                        source={{ uri: productInfoRequest.urlImagen }}
                         style={{ width: 200, height: 200, marginVertical: 10 }}
                     />
                 ) : null}
@@ -119,7 +133,7 @@ const AddProductsScreen = () => {
                     disabled={loading}
                 >
                     <Text style={globalStyles.submitButtonText}>
-                        {loading ? 'Registrando...' : 'Guardar Cliente'}
+                        {loading ? 'Registrando...' : 'Guardar Producto'}
                     </Text>
                 </TouchableOpacity>
 
