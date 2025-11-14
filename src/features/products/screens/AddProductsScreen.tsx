@@ -20,11 +20,16 @@ const AddProductsScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { productInfoRequest, setProductInfoRequest, sendDataProduct } = useAppStore();
+
     const [loading, setLoading] = useState(false);
 
     const handleAddProduct = async () => {
+
         setLoading(true);
         try {
+
+            setProductInfoRequest({ ...productInfoRequest, uuidTienda: uuidStore ?? '' })
+
             const result = await sendDataProduct();
             if (result?.success) {
                 navigation.navigate('Home')
@@ -76,18 +81,16 @@ const AddProductsScreen = () => {
                     placeholderTextColor="#999"
                 />
                 <Text style={globalStyles.label}>Código de barras *</Text>
-                {/* <CustomButton onPressButton={goToCameraScreen}>
+                <CustomButton onPressButton={goToCameraScreen}>
                     <Text>
                         Abrir cámara
                     </Text>
-                </CustomButton> */}
+                </CustomButton>
                 <TextInput
                     style={globalStyles.input}
                     placeholder="2734872873"
                     value={productInfoRequest.codigoBarras}
-                    onChangeText={(value) =>
-                        setProductInfoRequest({ ...productInfoRequest, codigoBarras: value })
-                    }
+                    readOnly
                     keyboardType="email-address"
                     autoCapitalize="none"
                     placeholderTextColor="#999"

@@ -5,7 +5,7 @@ export type ProductInfoRequest = {
   stock: number;
   urlImagen?: string | null;
   estatus?: boolean;
-  uuidTienda: string;
+  uuidTienda: string | null;
   base64Image: string;
 };
 

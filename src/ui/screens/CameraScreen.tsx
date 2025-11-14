@@ -1,42 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button, Linking } from 'react-native';
 import { Camera, useCameraPermission, useCodeScanner, useMicrophonePermission } from 'react-native-vision-camera';
+import { RootStackParamList } from '../../app/navigation/RootStackParamList';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useAppStore } from '../../features/store/useStoreApp';
 
 export default function CameraScreen() {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const { productInfoRequest, setProductInfoRequest } = useAppStore();
+
+    const [isActive, setIsActive] = useState(true);
+    const [scanned, setScanned] = useState(false);
+
     const { hasPermission: hasCameraPermission, requestPermission: requestCameraPermission } = useCameraPermission();
-    const { hasPermission: hasMicPermission, requestPermission: requestMicPermission } = useMicrophonePermission();
 
     useEffect(() => {
         const checkPermissions = async () => {
             if (!hasCameraPermission) {
-                const granted = await requestCameraPermission();
-                if (!granted) {
-                    console.log('El usuario negó el permiso de cámara.');
-                }
-            }
-
-            if (!hasMicPermission) {
-                const granted = await requestMicPermission();
-                if (!granted) {
-                    console.log('El usuario negó el permiso del micrófono.');
-                }
+                await requestCameraPermission();
             }
         };
-
         checkPermissions();
-    }, [hasCameraPermission, hasMicPermission]);
+    }, [hasCameraPermission]);
 
     if (!hasCameraPermission) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>No tienes permiso para usar la cámara</Text>
-                <Button title="Abrir configuración" onPress={() => Linking.openSettings()} />
             </View>
         );
     }
 
     const devices = Camera.getAvailableCameraDevices();
     const backDevice = devices.find(d => d.position === 'back');
+
+    const codeScanner = useCodeScanner({
+        codeTypes: ['upc-a', 'qr', 'ean-13'],
+        onCodeScanned: (codes) => {
+            if (scanned) return;
+            if (codes.length === 0) return;
+
+            const value = codes[0].value;
+            setProductInfoRequest({ ...productInfoRequest, codigoBarras: value?.toString() ?? '' })
+            console.log("Código detectado:", value);
+
+            setScanned(true);
+            setIsActive(false);
+
+            navigation.goBack();
+            navigation.navigate('AddProducts');
+        }
+    });
 
     if (!backDevice) {
         return (
@@ -46,19 +60,12 @@ export default function CameraScreen() {
         );
     }
 
-    const codeScanner = useCodeScanner({
-        codeTypes: ['qr', 'ean-13'],
-        onCodeScanned: (codes) => {
-            console.log(`Scanned ${codes.length} codes!`)
-        }
-    })
-
     return (
         <View style={{ flex: 1 }}>
             <Camera
                 style={{ flex: 1 }}
                 device={backDevice}
-                isActive={true}
+                isActive={isActive}
                 codeScanner={codeScanner}
             />
         </View>

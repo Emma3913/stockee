@@ -37,7 +37,7 @@ const HomeScreen = () => {
                         <Text style={globalStyles.icon}>{feature.icon}</Text>
                         {/* <Text style={[globalStyles.cardTitle]}>
                             {feature.name}
-                        </Text> */}
+    `                   </Text> */}
                     </TouchableOpacity>
                 ))}
             </View>

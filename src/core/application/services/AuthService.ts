@@ -66,8 +66,8 @@ export async function resetPasswordByEmail(email: string): Promise<string> {
 export async function sendDataProduct(
   productoInfo: ProductInfoRequest,
 ): Promise<ProductInfoResponse> {
-  console.log(productoInfo);
-  const uuidStore = await AsyncStorage.getItem('UUID_STORE');
+  console.log('productoInfo', productoInfo);
+
   try {
     const response = await axiosInstance.post<ProductInfoResponse>(
       'productos/guardar',
@@ -78,7 +78,7 @@ export async function sendDataProduct(
         stock: productoInfo.stock,
         urlImagen: productoInfo.urlImagen,
         estatus: productoInfo.estatus,
-        uuidTienda: uuidStore,
+        // uuidTienda: uuidStore,
         base64Image: productoInfo.base64Image,
       },
     );

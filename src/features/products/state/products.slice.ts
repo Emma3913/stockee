@@ -13,7 +13,6 @@ import {
 export type ProductsSliceType = {
   productInfoResponse: ProductInfoResponse;
   productInfoRequest: ProductInfoRequest;
-  //   setProductInfoRequest: (productInfoRequest: ProductInfoRequest) => void;
   setProductInfoRequest: (
     updater:
       | ProductInfoRequest
