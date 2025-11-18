@@ -16,6 +16,7 @@ import ResetPasswordScreen from '../../features/auth/screens/ResetPasswordScreen
 import AddProductsScreen from '../../features/products/screens/AddProductsScreen';
 import { useAuthSessionStore } from '../../features/auth/state/authSession.store';
 import CameraScreen from '../../ui/screens/CameraScreen';
+import ProductsStack from '../../features/products/ProductStack';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -37,6 +38,7 @@ const StackNavigator = () => {
                     <Stack.Screen name="AddEmployee" component={AddEmployeeScreen} />
                     <Stack.Screen name="DetailEmployee" component={DetailEmployee} />
                     <Stack.Screen name="Products" component={ProductsScreen} />
+                    <Stack.Screen name="ProductsMain" component={ProductsStack} />
                     <Stack.Screen name="AddProducts" component={AddProductsScreen} />
                     <Stack.Screen name="Inventory" component={InventoryScreen} />
                     <Stack.Screen name="Sales" component={SalesScreen} />
