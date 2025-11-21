@@ -1,3 +1,12 @@
+export type PaginatedProductsResponse = {
+  items: ProductInfoResponse[];
+  currentPage: number;
+  nextPage: number | null;
+  previousPage: number | null;
+  totalItems: number;
+  totalPages: number;
+};
+
 export type ProductInfoRequest = {
   codigoBarras: string;
   descripcion: string;

@@ -46,3 +46,52 @@ export const ClienteService = {
     return newCliente;
   },
 };
+
+export async function registerUsuario({
+  email,
+  password,
+  nombre,
+  estatus = true,
+  rolId = 1,
+  tiendaId = 1,
+}: {
+  email: string;
+  password: string;
+  nombre: string;
+  estatus?: boolean;
+  rolId?: number;
+  tiendaId?: number;
+}) {
+  try {
+    const url = `${backendUrl}/auth/registrarUsuario`;
+    const body = {
+      nombre,
+      correo: email,
+      password,
+      estatus,
+      rolForUsuario: { id: rolId },
+      tiendaForUsuario: { id: tiendaId },
+    };
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    const text = await response.text();
+    let data = null;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      // No es JSON
+    }
+    if (!response.ok) {
+      throw new Error(data?.message || 'Registro fallido');
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

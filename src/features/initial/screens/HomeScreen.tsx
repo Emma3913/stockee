@@ -8,7 +8,6 @@ import CustomButton from '../../../ui/components/CommonButton';
 import { useAuthSessionStore } from '../../auth/state/authSession.store';
 
 const HomeScreen = () => {
-
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { clearSession } = useAuthSessionStore();
 
@@ -23,24 +22,32 @@ const HomeScreen = () => {
     return (
         <View style={globalStyles.containerOptions}>
             <View style={globalStyles.header}>
-                <Text style={globalStyles.title}>Punto de Venta</Text>
-                <Text style={globalStyles.subtitle}>Aqui puedes gestionar tu tienda</Text>
+                <CustomButton>
+                    <FontAwesomeIcon name="th-large" size={22} color={globalColors.semidark} />
+                </CustomButton>
+                <Text style={{ fontWeight: '900' }}>Stockee</Text>
+                <CustomButton>
+                    <FontAwesomeIcon name="user-circle" size={22} color={globalColors.semidark} />
+                </CustomButton>
             </View>
 
             <View style={globalStyles.grid}>
                 {features.map((feature, index) => (
-                    <TouchableOpacity
+                    <CustomButton
                         key={index}
-                        style={[globalStyles.cardOptions]}
-                        onPress={() => navigation.navigate(feature.route as any)}
+                        styleButton={globalStyles.cardOptions}
+                        onPressButton={() => navigation.navigate(feature.route as any)}
                     >
                         <Text style={globalStyles.icon}>{feature.icon}</Text>
-                        {/* <Text style={[globalStyles.cardTitle]}>
-                            {feature.name}
-    `                   </Text> */}
-                    </TouchableOpacity>
+                    </CustomButton>
                 ))}
             </View>
+
+            <View style={{ backgroundColor: globalColors.light, }}>
+                <Text></Text>
+            </View>
+
+
             <CustomButton onPressButton={clearSession}>
                 <Text>Cerrar Sesion</Text>
             </CustomButton>

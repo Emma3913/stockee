@@ -1,35 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import ProductCard from '../components/ProductCard';
 import { fetchProducts } from '../data/productsDataSource';
+import { useAppStore } from '../../store/useStoreApp';
+import { useAuthSessionStore } from '../../auth/state/authSession.store';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ProductsScreen = () => {
+    const [loading, setLoading] = useState(false);
 
-    const [products, setProducts] = useState<any[]>([]);
+    const { uuidStore } = useAuthSessionStore();
+    const { getAllProductsByUuidStore, paginatedProductsInfoResponse } = useAppStore();
 
-    const loadProducts = async () => {
+    const loadProducts = useCallback(async () => {
+        if (!uuidStore) return;
+
+        setLoading(true);
         try {
-            const response = await fetchProducts(
-                "8115df28-69dc-4e8c-a06f-4d53128ed39a"
-            );
-
-            setProducts(response.items);
-
+            await getAllProductsByUuidStore(uuidStore);
         } catch (error) {
-            console.log("error loadProducts", error);
+            console.error("Error cargando productos:", error);
+        } finally {
+            setLoading(false);
         }
-    };
+    }, [uuidStore, getAllProductsByUuidStore]);
 
-    useEffect(() => {
-        loadProducts();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            loadProducts();
+        }, [loadProducts])
+    );
+
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Productos</Text>
+            <Text style={styles.title}>Análisis de stock</Text>
 
             <FlatList
-                data={products}
+                data={paginatedProductsInfoResponse.items}
                 keyExtractor={(item) => `${item.id}`}
                 renderItem={({ item }) => (
                     <ProductCard product={item} />

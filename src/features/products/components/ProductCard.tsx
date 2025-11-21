@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { ProductInfoRequest } from '../../../core/domain/entities/Products';
+import { ProductInfoResponse } from '../../../core/domain/entities/Products';
 
 type Props = {
-    product: ProductInfoRequest;
+    product: ProductInfoResponse;
 };
 
 const ProductCard = ({ product }: Props) => {

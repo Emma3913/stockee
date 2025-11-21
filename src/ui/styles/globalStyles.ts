@@ -564,16 +564,18 @@ export const globalStyles = StyleSheet.create({
   containerOptions: {
     flex: 1,
     backgroundColor: globalColors.lightgray,
-    padding: 17,
+    padding: 10,
     // justifyContent: 'center',
     // alignContent: 'center',
   },
   header: {
-    backgroundColor: globalColors.secondary,
+    backgroundColor: globalColors.light,
     borderRadius: 20,
-    padding: 24,
-    // paddingTop: 60,
-    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   // title: {
   //   fontSize: 28,

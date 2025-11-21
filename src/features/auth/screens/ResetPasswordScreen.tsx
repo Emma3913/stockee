@@ -7,7 +7,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../../../ui/components/CommonButton'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
-import { sendPasswordResetEmail } from '../../../core/application/services/AuthService'
+import { resetPasswordByEmail } from '../../../core/application/services/AuthService'
 
 const ResetPasswordScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -27,8 +27,8 @@ const ResetPasswordScreen = () => {
         }
         setLoading(true);
         try {
-            const response = await sendPasswordResetEmail(email.trim());
-            setMessage(response.message || 'Se ha enviado un correo con tu nueva contraseña.');
+            const response = await resetPasswordByEmail(email.trim());
+            setMessage(response || 'Se ha enviado un correo con tu nueva contraseña.');
 
             setTimeout(() => {
                 if (response != null) {

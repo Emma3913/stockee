@@ -15,7 +15,7 @@ import InventoryScreen from '../../features/inventory/screens/InventoryScreen';
 import ResetPasswordScreen from '../../features/auth/screens/ResetPasswordScreen';
 import AddProductsScreen from '../../features/products/screens/AddProductsScreen';
 import { useAuthSessionStore } from '../../features/auth/state/authSession.store';
-import CameraScreen from '../../ui/screens/CameraScreen';
+import CameraScreen from '../../ui/screens/CameraScannerScreen';
 import ProductsStack from '../../features/products/ProductStack';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

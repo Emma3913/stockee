@@ -4,11 +4,11 @@ import { PointerType, ScrollView, TextInput } from 'react-native-gesture-handler
 import { globalStyles } from '../../../ui/styles/globalStyles'
 import { ProductInfoRequest } from '../../../core/domain/entities/Products'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { launchImageLibrary } from 'react-native-image-picker'
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { Button } from '@react-navigation/elements'
 import CustomButton from '../../../ui/components/CommonButton'
 import { sendDataProduct } from '../../../core/application/services/AuthService'
-import CameraScreen from '../../../ui/screens/CameraScreen'
+import CameraScreen from '../../../ui/screens/CameraScannerScreen'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useAuthSessionStore } from '../../auth/state/authSession.store'
@@ -31,11 +31,10 @@ const AddProductsScreen = () => {
             setProductInfoRequest({ ...productInfoRequest, uuidTienda: uuidStore ?? '' })
 
             const result = await sendDataProduct();
-            if (result?.success) {
-                navigation.navigate('Home')
+            if (result) {
+                navigation.navigate('ProductsMain')
             } else {
-                navigation.navigate('Home')
-                console.log('Usuario o contraseña incorrectos');
+                navigation.navigate('ProductsMain')
             }
         } catch (err) {
             console.log(err);
@@ -45,10 +44,14 @@ const AddProductsScreen = () => {
     };
 
     const handleSelectImage = async () => {
-        const result = await launchImageLibrary({
+        const result = await launchCamera({
             mediaType: 'photo',
             includeBase64: true,
+            saveToPhotos: false,
+            cameraType: 'back',
         });
+
+        if (result.didCancel) return;
 
         if (result.assets && result.assets.length > 0) {
             const image = result.assets[0];

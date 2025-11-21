@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, Linking } from 'react-native';
+import { View, Text, Button, Linking, Vibration } from 'react-native';
 import { Camera, useCameraPermission, useCodeScanner, useMicrophonePermission } from 'react-native-vision-camera';
 import { RootStackParamList } from '../../app/navigation/RootStackParamList';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -37,11 +37,15 @@ export default function CameraScreen() {
     const codeScanner = useCodeScanner({
         codeTypes: ['upc-a', 'qr', 'ean-13'],
         onCodeScanned: (codes) => {
-            if (scanned) return;
+            if (scanned) {
+                Vibration.vibrate()
+                return;
+            }
             if (codes.length === 0) return;
 
+
             const value = codes[0].value;
-            setProductInfoRequest({ ...productInfoRequest, codigoBarras: value?.toString() ?? '' })
+            setProductInfoRequest({ ...productInfoRequest, codigoBarras: value! })
             console.log("Código detectado:", value);
 
             setScanned(true);
