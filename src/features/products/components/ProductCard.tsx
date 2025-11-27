@@ -7,6 +7,9 @@ type Props = {
 };
 
 const ProductCard = ({ product }: Props) => {
+
+    console.log("product.urlImagen: ", product.urlImagen)
+
     return (
         <View style={styles.card}>
 

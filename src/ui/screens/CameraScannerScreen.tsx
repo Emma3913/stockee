@@ -38,7 +38,7 @@ export default function CameraScreen() {
         codeTypes: ['upc-a', 'qr', 'ean-13'],
         onCodeScanned: (codes) => {
             if (scanned) {
-                Vibration.vibrate()
+                Vibration.vibrate(500);
                 return;
             }
             if (codes.length === 0) return;

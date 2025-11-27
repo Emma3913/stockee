@@ -2,15 +2,14 @@ import { StateCreator } from 'zustand';
 import { OwnerSliceType } from '../../owner/state/owner.slice';
 import { EmployeesSliceType } from '../../employees/state/employees.slice';
 import {
-  getAllProductsByUuidStore,
   loginWithEmailAndPassword,
-  sendDataProduct,
 } from '../../../core/application/services/AuthService';
 import {
   PaginatedProductsResponse,
   ProductInfoRequest,
   ProductInfoResponse,
 } from '../../../core/domain/entities/Products';
+import { getAllProductsByUuidStore, sendDataProduct } from '../../../core/application/services/ProductsService';
 
 export type ProductsSliceType = {
   productInfoResponse: ProductInfoResponse;

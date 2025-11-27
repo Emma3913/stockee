@@ -1,18 +1,19 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React, { use, useState } from 'react'
 import { PointerType, ScrollView, TextInput } from 'react-native-gesture-handler'
-import { globalStyles } from '../../../ui/styles/globalStyles'
+import { globalColors, globalStyles } from '../../../ui/styles/globalStyles'
 import { ProductInfoRequest } from '../../../core/domain/entities/Products'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { Button } from '@react-navigation/elements'
 import CustomButton from '../../../ui/components/CommonButton'
-import { sendDataProduct } from '../../../core/application/services/AuthService'
 import CameraScreen from '../../../ui/screens/CameraScannerScreen'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { useAuthSessionStore } from '../../auth/state/authSession.store'
 import { useAppStore } from '../../store/useStoreApp'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+// import MaterialSymbols from 'react-native-material-symbols';
 
 const AddProductsScreen = () => {
     const { uuidStore } = useAuthSessionStore();
@@ -66,7 +67,6 @@ const AddProductsScreen = () => {
 
     const goToCameraScreen = () => navigation.navigate('Camera');
 
-
     return (
 
         <ScrollView style={globalStyles.containerAddEmployeeScreen} contentContainerStyle={globalStyles.scrollContent}>
@@ -84,10 +84,13 @@ const AddProductsScreen = () => {
                     placeholderTextColor="#999"
                 />
                 <Text style={globalStyles.label}>Código de barras *</Text>
-                <CustomButton onPressButton={goToCameraScreen}>
-                    <Text>
-                        Abrir cámara
-                    </Text>
+                <CustomButton
+                    styleButton={{}}
+                    onPressButton={goToCameraScreen}
+                >
+                    <Icon name="barcode_scanner" size={20} color={globalColors.semidark} />
+                    <MaterialSymbols name="barcode_scanner" size={24} color="black" />
+
                 </CustomButton>
                 <TextInput
                     style={globalStyles.input}
