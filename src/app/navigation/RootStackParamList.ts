@@ -3,9 +3,9 @@ export type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   Register: undefined;
-  Employees: undefined;
-  AddEmployee: undefined;
-  DetailEmployee: { idEmployee: string };
+  Selllers: undefined;
+  AddSeller: undefined;
+  DetailSeller: { idSeller: number };
   AppNavigatorTab: undefined;
   Products: undefined;
   ProductsMain: undefined;

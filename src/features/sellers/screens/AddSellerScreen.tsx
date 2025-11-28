@@ -3,47 +3,35 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
-import { registerUsuario } from '../../../core/application/services/AuthService';
+
 import { globalStyles } from '../../../ui/styles/globalStyles';
+import { useAppStore } from '../../store/useStoreApp';
 
-const AddEmployeeScreen = () => {
+const AddSellerScreen = () => {
+
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const [nombre, setNombre] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [rolId, setRolId] = useState(1); // Solo admin
-    const [tiendaId, setTiendaId] = useState(1); // Solo tienda 1
-    const estatus = true; // oculto, siempre true
+    const { registrerNewSeller, sellerInfoRequest, setSellerInfoRequest } = useAppStore();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
 
-    const handleAgregar = async () => {
-        if (!nombre || !email || !password) {
-            setError('Por favor completa los campos obligatorios');
-            return;
-        }
+    const handleAddSeller = async () => {
+        if (loading) return;
         setLoading(true);
-        setError('');
-        setSuccess('');
+
         try {
-            await registerUsuario({ nombre, email, password, estatus, rolId, tiendaId });
-            setSuccess('Usuario registrado correctamente');
-            setNombre('');
-            setEmail('');
-            setPassword('');
+            const result = await registrerNewSeller();
 
-            setTimeout(() => {
-                navigation.goBack();
-            }, 1500);
-        } catch (err: any) {
-            setError(err.message || 'Error al registrar');
+            if (!result?.uuidTienda) {
+                navigation.navigate('Selllers');
+                return;
+            }
+
+            navigation.navigate('Selllers');
+        } catch (err) {
+            console.error('Error al registrar vendedor:', err);
+            // TODO: Agregra el CustomModal.
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
-    };
-
-    const handleCancel = () => {
-        navigation.goBack();
     };
 
     return (
@@ -55,16 +43,16 @@ const AddEmployeeScreen = () => {
                 <TextInput
                     style={globalStyles.input}
                     placeholder="Ej: Juan Pérez"
-                    value={nombre}
-                    onChangeText={setNombre}
+                    value={sellerInfoRequest.nombre}
+                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, nombre: value })}
                     placeholderTextColor="#999"
                 />
                 <Text style={globalStyles.label}>Email *</Text>
                 <TextInput
                     style={globalStyles.input}
                     placeholder="correo@ejemplo.com"
-                    value={email}
-                    onChangeText={setEmail}
+                    value={sellerInfoRequest.email}
+                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, email: value })}
                     keyboardType="email-address"
                     autoCapitalize="none"
                     placeholderTextColor="#999"
@@ -73,46 +61,46 @@ const AddEmployeeScreen = () => {
                 <TextInput
                     style={globalStyles.input}
                     placeholder="Contraseña"
-                    value={password}
-                    onChangeText={setPassword}
+                    value={sellerInfoRequest.password}
+                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, password: value })}
                     secureTextEntry
                     placeholderTextColor="#999"
                 />
-                <Text style={globalStyles.label}>Rol</Text>
+                {/* <Text style={globalStyles.label}>Rol</Text>
                 <TextInput
                     style={[globalStyles.input, globalStyles.disabledInput]}
                     value="EMPLEADO"
                     editable={false}
-                />
-                <Text style={globalStyles.label}>Tienda</Text>
-                <TextInput
+                /> */}
+                {/* <Text style={globalStyles.label}>Tienda</Text> */}
+                {/* <TextInput
                     style={[globalStyles.input, globalStyles.disabledInput]}
                     value="Tienda la Poblanita"
                     editable={false}
-                />
+                /> */}
                 <TouchableOpacity
                     style={[globalStyles.submitButton, loading && globalStyles.disabledButton]}
-                    onPress={handleAgregar}
+                    onPress={handleAddSeller}
                     disabled={loading}
                 >
                     <Text style={globalStyles.submitButtonText}>
-                        {loading ? 'Registrando...' : 'Guardar Cliente'}
+                        {loading ? 'Registrando...' : 'Guardar vemdedor'}
                     </Text>
                 </TouchableOpacity>
 
-                {error ? <Text style={globalStyles.error}>{error}</Text> : null}
-                {success ? <Text style={globalStyles.success}>{success}</Text> : null}
+                {/* {error ? <Text style={globalStyles.error}>{error}</Text> : null}
+                {success ? <Text style={globalStyles.success}>{success}</Text> : null} */}
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={globalStyles.cancelButton}
                     onPress={handleCancel}
                     disabled={loading}
                 >
                     <Text style={globalStyles.cancelButtonText}>Cancelar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </ScrollView>
     );
 }
 
-export default AddEmployeeScreen;
+export default AddSellerScreen;

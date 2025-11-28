@@ -1,48 +1,40 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React, { use, useState } from 'react'
-import { PointerType, ScrollView, TextInput } from 'react-native-gesture-handler'
+import React, { useState } from 'react'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles'
-import { ProductInfoRequest } from '../../../core/domain/entities/Products'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
-import { Button } from '@react-navigation/elements'
+import { launchCamera } from 'react-native-image-picker'
 import CustomButton from '../../../ui/components/CommonButton'
-import CameraScreen from '../../../ui/screens/CameraScannerScreen'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
-import { useAuthSessionStore } from '../../auth/state/authSession.store'
 import { useAppStore } from '../../store/useStoreApp'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import MaterialSymbols from 'react-native-material-symbols';
 
 const AddProductsScreen = () => {
-    const { uuidStore } = useAuthSessionStore();
-
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    const { productInfoRequest, setProductInfoRequest, sendDataProduct } = useAppStore();
-
+    const { productInfoRequest, setProductInfoRequest, registerNewProduct } = useAppStore();
     const [loading, setLoading] = useState(false);
 
     const handleAddProduct = async () => {
-
+        if (loading) return;
         setLoading(true);
+
         try {
+            const result = await registerNewProduct();
 
-            setProductInfoRequest({ ...productInfoRequest, uuidTienda: uuidStore ?? '' })
-
-            const result = await sendDataProduct();
-            if (result) {
-                navigation.navigate('ProductsMain')
-            } else {
-                navigation.navigate('ProductsMain')
+            if (!result?.success) {
+                navigation.navigate('Products');
+                return;
             }
+
+            navigation.navigate('Products');
         } catch (err) {
-            console.log(err);
+            console.error('Error al registrar producto:', err);
+            // TODO: Agregra el CustomModal.
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleSelectImage = async () => {
         const result = await launchCamera({
@@ -89,7 +81,6 @@ const AddProductsScreen = () => {
                     onPressButton={goToCameraScreen}
                 >
                     <Icon name="barcode_scanner" size={20} color={globalColors.semidark} />
-                    <MaterialSymbols name="barcode_scanner" size={24} color="black" />
 
                 </CustomButton>
                 <TextInput

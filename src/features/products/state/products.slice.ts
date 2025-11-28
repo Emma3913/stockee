@@ -1,35 +1,32 @@
 import { StateCreator } from 'zustand';
 import { OwnerSliceType } from '../../owner/state/owner.slice';
-import { EmployeesSliceType } from '../../employees/state/employees.slice';
+
 import {
-  loginWithEmailAndPassword,
-} from '../../../core/application/services/AuthService';
-import {
-  PaginatedProductsResponse,
   ProductInfoRequest,
   ProductInfoResponse,
 } from '../../../core/domain/entities/Products';
-import { getAllProductsByUuidStore, sendDataProduct } from '../../../core/application/services/ProductsService';
+import { PaginatedResponse } from '../../../core/domain/types';
+import { SellersSliceType } from '../../sellers/state/sellers.slice';
+import { getAllProductsByStore, registerNewProduct } from '../../../core/application/services/ProductsService';
 
 export type ProductsSliceType = {
   productInfoResponse: ProductInfoResponse;
-  paginatedProductsInfoResponse: PaginatedProductsResponse;
+  paginatedProductsInfoResponse: PaginatedResponse<ProductInfoResponse>;
   productInfoRequest: ProductInfoRequest;
   setProductInfoRequest: (
     updater:
       | ProductInfoRequest
       | ((prev: ProductInfoRequest) => ProductInfoRequest),
   ) => void;
-  sendDataProduct: () => Promise<ProductInfoResponse>;
-  getAllProductsByUuidStore: (
-    uuidTienda: string,
+  registerNewProduct: () => Promise<ProductInfoResponse>;
+  getAllProductsByStore: (
     page?: number,
     size?: number,
-  ) => Promise<PaginatedProductsResponse>;
+  ) => Promise<PaginatedResponse<ProductInfoResponse>>;
 };
 
 export const createProductsSlice: StateCreator<
-  ProductsSliceType & OwnerSliceType & EmployeesSliceType,
+  ProductsSliceType & OwnerSliceType & SellersSliceType,
   [],
   [],
   ProductsSliceType
@@ -40,9 +37,8 @@ export const createProductsSlice: StateCreator<
     descripcion: '',
     precio: 0,
     stock: 0,
-    uuidTienda: '',
     estatus: true,
-    urlImagen: '',
+    urlImagen: ''
   },
 
   productInfoResponse: {
@@ -76,14 +72,14 @@ export const createProductsSlice: StateCreator<
           : updater,
     })),
 
-  sendDataProduct: async () => {
-    const response = await sendDataProduct(get().productInfoRequest);
+  registerNewProduct: async () => {
+    const response = await registerNewProduct(get().productInfoRequest);
     set({ productInfoResponse: response });
     return response;
   },
 
-  getAllProductsByUuidStore: async (uuidTienda, page = 0, size = 30) => {
-    const response = await getAllProductsByUuidStore(uuidTienda, page, size);
+  getAllProductsByStore: async (page = 0, size = 30) => {
+    const response = await getAllProductsByStore(page, size);
     set({ paginatedProductsInfoResponse: response });
     return response;
   },

@@ -1,12 +1,3 @@
-export type PaginatedProductsResponse = {
-  items: ProductInfoResponse[];
-  currentPage: number;
-  nextPage: number | null;
-  previousPage: number | null;
-  totalItems: number;
-  totalPages: number;
-};
-
 export type ProductInfoRequest = {
   codigoBarras: string;
   descripcion: string;
@@ -14,7 +5,6 @@ export type ProductInfoRequest = {
   stock: number;
   urlImagen?: string | null;
   estatus?: boolean;
-  uuidTienda: string | null;
   base64Image: string;
 };
 
@@ -30,12 +20,4 @@ export type ProductInfoResponse = {
   uuidTienda: string;
   message?: string;
   success?: boolean;
-};
-
-export type ErrorResponse = {
-  message: string;
-  code?: string;
-  details?: any;
-  timestamp?: string;
-  path?: string;
 };

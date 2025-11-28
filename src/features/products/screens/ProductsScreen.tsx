@@ -8,22 +8,18 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const ProductsScreen = () => {
     const [loading, setLoading] = useState(false);
-
-    const { uuidStore } = useAuthSessionStore();
-    const { getAllProductsByUuidStore, paginatedProductsInfoResponse } = useAppStore();
+    const { paginatedProductsInfoResponse, getAllProductsByStore } = useAppStore();
 
     const loadProducts = useCallback(async () => {
-        if (!uuidStore) return;
-
         setLoading(true);
         try {
-            await getAllProductsByUuidStore(uuidStore);
+            await getAllProductsByStore();
         } catch (error) {
             console.error("Error cargando productos:", error);
         } finally {
             setLoading(false);
         }
-    }, [uuidStore, getAllProductsByUuidStore]);
+    }, [getAllProductsByStore]);
 
     useFocusEffect(
         useCallback(() => {

@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "570357006725",
+    "project_id": "actividadevaluacion-7cd3b",
+    "storage_bucket": "actividadevaluacion-7cd3b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570357006725:android:43e7ef461d9033ffb304ec",
+        "android_client_info": {
+          "package_name": "com.movilapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC50xtj9qPLsCzLOBXwZrCuaR3j3MHuiuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570357006725:android:19a5a98c94dbe2adb304ec",
+        "android_client_info": {
+          "package_name": "com.movilstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC50xtj9qPLsCzLOBXwZrCuaR3j3MHuiuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570357006725:android:53589ec17b22e290b304ec",
+        "android_client_info": {
+          "package_name": "com.stockee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC50xtj9qPLsCzLOBXwZrCuaR3j3MHuiuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

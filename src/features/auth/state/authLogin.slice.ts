@@ -5,8 +5,9 @@ import {
   LoginResponse,
 } from '../../../core/domain/entities/Login';
 import { OwnerSliceType } from '../../owner/state/owner.slice';
-import { EmployeesSliceType } from '../../employees/state/employees.slice';
+
 import { loginWithEmailAndPassword } from '../../../core/application/services/AuthService';
+import { SellersSliceType } from '../../employees/state/sellers.slice';
 
 export type AuthSliceType = {
   loginRequest: LoginRequest;
@@ -16,7 +17,7 @@ export type AuthSliceType = {
 };
 
 export const createAuthSlice: StateCreator<
-  AuthSliceType & OwnerSliceType & EmployeesSliceType,
+  AuthSliceType & OwnerSliceType & SellersSliceType,
   [],
   [],
   AuthSliceType

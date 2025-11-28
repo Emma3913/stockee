@@ -1,14 +1,15 @@
 import { StateCreator } from 'zustand';
-import { Employee } from '../../../core/domain/entities/Employee';
+import { Employee } from '../../../core/domain/entities/Seller';
 import { AuthSliceType } from '../../auth/state/authLogin.slice';
-import { EmployeesSliceType } from '../../employees/state/employees.slice';
+import { SellersSliceType } from '../../employees/state/sellers.slice';
+
 
 export type OwnerSliceType = {
   employee: Employee;
 };
 
 export const createOwnerSlice: StateCreator<
-  OwnerSliceType & AuthSliceType & EmployeesSliceType,
+  OwnerSliceType & AuthSliceType & SellersSliceType,
   [],
   [],
   OwnerSliceType

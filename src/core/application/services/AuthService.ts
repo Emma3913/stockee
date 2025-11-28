@@ -1,15 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axiosInstance from '../../../app/config/network/axiosIntance';
 import { LoginRequest, LoginResponse } from '../../domain/entities/Login';
-import {
-  ErrorResponse,
-  PaginatedProductsResponse,
-  ProductInfoRequest,
-  ProductInfoResponse,
-} from '../../domain/entities/Products';
 
-// const backendUrl = BACKEND_URL;
-// const backendUrl = 'http://localhost:8080';
 const backendUrl = 'https://unkneaded-deepeningly-sandra.ngrok-free.dev'; // TODO: Hacer validacion de que URL esta disponible
 
 export async function loginWithEmailAndPassword(
