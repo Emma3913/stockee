@@ -7,7 +7,8 @@ import {
 import { OwnerSliceType } from '../../owner/state/owner.slice';
 
 import { loginWithEmailAndPassword } from '../../../core/application/services/AuthService';
-import { SellersSliceType } from '../../employees/state/sellers.slice';
+import { SellersSliceType } from '../../sellers/state/sellers.slice';
+
 
 export type AuthSliceType = {
   loginRequest: LoginRequest;

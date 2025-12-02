@@ -6,13 +6,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import StackNavigator from './src/app/navigation/StackNavigator'
 import { useAuthSessionStore } from './src/features/auth/state/authSession.store'
+import { useRegisterDeviceToken } from './src/app/hooks/useRegisterDeviceToken'
+import { initializeNotifications } from './src/app/providers/notification/initializeNotifications'
 
 const App = () => {
-  const { initializeAuth, isLoading } = useAuthSessionStore();
+  const { initializeAuth, isLoading, user } = useAuthSessionStore();
 
   useEffect(() => {
     initializeAuth();
+    initializeNotifications();
   }, []);
+
+  useRegisterDeviceToken(user?.token!)
 
   if (isLoading) {
     return (

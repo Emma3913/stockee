@@ -12,9 +12,9 @@ const HomeScreen = () => {
     const { clearSession } = useAuthSessionStore();
 
     const features = [
-        { name: 'Productos', route: 'ProductsMain', icon: <FontAwesomeIcon name="cube" size={60} color={globalColors.semidark} /> },
+        { name: 'Productos', route: 'Products', icon: <FontAwesomeIcon name="cube" size={60} color={globalColors.semidark} /> },
         { name: 'Ventas', route: 'Sales', icon: <FontAwesomeIcon name="tags" size={60} color={globalColors.semidark} /> },
-        { name: 'Empleados', route: 'Employees', icon: <FontAwesomeIcon name="users" size={60} color={globalColors.semidark} /> },
+        { name: 'Empleados', route: 'Selllers', icon: <FontAwesomeIcon name="users" size={60} color={globalColors.semidark} /> },
         { name: 'Inventario', route: 'Inventory', icon: <FontAwesomeIcon name="cubes" size={60} color={globalColors.semidark} /> },
     ];
 
