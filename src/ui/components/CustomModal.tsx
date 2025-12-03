@@ -14,8 +14,6 @@ import React, { useRef, useEffect } from 'react';
 import { BlurView } from '@react-native-community/blur';
 import { uiStyles } from '../styles/uiStyles';
 
-const { width, height } = Dimensions.get('window');
-
 type CustomModalProps = {
     isVisible?: boolean;
     title?: string;
