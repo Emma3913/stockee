@@ -5,6 +5,7 @@ import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalStyles } from '../../../ui/styles/globalStyles';
 import { useAppStore } from '../../store/useStoreApp';
 import { SkeletonCardSellers } from '../components/SkeletonCardSellers';
+import CustomButton from '../../../ui/components/CommonButton';
 
 const SellersScreen = () => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const SellersScreen = () => {
         try {
             await getAllSellersByStore();
         } catch (error) {
-            console.error("Error cargando productos:", error);
+            console.error('Error cargando productos:', error);
         } finally {
             setLoading(false);
         }
@@ -25,24 +26,31 @@ const SellersScreen = () => {
     useFocusEffect(
         useCallback(() => {
             loadSellers();
-        }, [loadSellers])
+        }, [loadSellers]),
+    );
+
+    const totalItemsFetch = paginatedSellersInfoResponse.data.length;
+    const skeletonItems = Array.from({ length: totalItemsFetch }).map(
+        (_, i) => i,
     );
 
     return (
         <View style={globalStyles.containerEmployeeScreen}>
             <Text style={globalStyles.title}>Empleados</Text>
-            <Text style={globalStyles.subtitle}>Gestión de Empleados registrados</Text>
+            <Text style={globalStyles.subtitle}>
+                Gestión de Empleados registrados
+            </Text>
 
-            <TouchableOpacity
-                style={globalStyles.addButton}
-                onPress={() => navigation.navigate('AddSeller')}
+            <CustomButton
+                styleButton={globalStyles.addButton}
+                onPressButton={() => navigation.navigate('AddSeller')}
             >
                 <Text style={globalStyles.addButtonText}>Agregar Empleado</Text>
-            </TouchableOpacity>
+            </CustomButton>
 
             {loading ? (
                 <FlatList
-                    data={paginatedSellersInfoResponse.data}
+                    data={skeletonItems}
                     keyExtractor={(item) => item.toString()}
                     renderItem={() => <SkeletonCardSellers />}
                     contentContainerStyle={globalStyles.listContent}

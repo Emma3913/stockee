@@ -1,8 +1,11 @@
 import axiosInstance from '../../../app/config/network/axiosIntance';
 
-import { SellerInfoRequest, SellerInfoResponse, SellerInfoResponsePaginated } from '../../domain/entities/Seller';
+import {
+  SellerInfoRequest,
+  SellerInfoResponse,
+  SellerInfoResponsePaginated,
+} from '../../domain/entities/Seller';
 import { PaginatedResponse } from '../../domain/types';
-
 
 export async function registrerNewSeller(
   sellerInfoRequest: SellerInfoRequest,
@@ -13,7 +16,7 @@ export async function registrerNewSeller(
       {
         nombre: sellerInfoRequest.nombre,
         email: sellerInfoRequest.email,
-        password: sellerInfoRequest.password, 
+        password: sellerInfoRequest.password,
       },
     );
 

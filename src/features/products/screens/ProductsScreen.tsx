@@ -1,21 +1,30 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import ProductCard from '../components/ProductCard';
-import { fetchProducts } from '../data/productsDataSource';
 import { useAppStore } from '../../store/useStoreApp';
-import { useAuthSessionStore } from '../../auth/state/authSession.store';
-import { useFocusEffect } from '@react-navigation/native';
+import {
+    NavigationProp,
+    useFocusEffect,
+    useNavigation,
+} from '@react-navigation/native';
+import { globalStyles } from '../../../ui/styles/globalStyles';
+import { SkeletonProductCard } from '../components/SkeletonProductCard';
+import CustomButton from '../../../ui/components/CommonButton';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 
 const ProductsScreen = () => {
     const [loading, setLoading] = useState(false);
-    const { paginatedProductsInfoResponse, getAllProductsByStore } = useAppStore();
+    const { paginatedProductsInfoResponse, getAllProductsByStore } =
+        useAppStore();
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const loadProducts = useCallback(async () => {
         setLoading(true);
         try {
             await getAllProductsByStore();
         } catch (error) {
-            console.error("Error cargando productos:", error);
+            console.error('Error cargando productos:', error);
         } finally {
             setLoading(false);
         }
@@ -24,22 +33,40 @@ const ProductsScreen = () => {
     useFocusEffect(
         useCallback(() => {
             loadProducts();
-        }, [loadProducts])
+        }, [loadProducts]),
     );
 
+    const totalItemsRequest = paginatedProductsInfoResponse.data.length;
+    const skeletonItems = Array.from({ length: totalItemsRequest }).map(
+        (_, i) => i,
+    );
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Análisis de stock</Text>
 
-            <FlatList
-                data={paginatedProductsInfoResponse.data}
-                keyExtractor={(item) => `${item.id}`}
-                renderItem={({ item }) => (
-                    <ProductCard product={item} />
-                )}
-                contentContainerStyle={{ paddingVertical: 10 }}
-            />
+            <CustomButton
+                styleButton={globalStyles.addButton}
+                onPressButton={() => navigation.navigate('AddProducts')}
+            >
+                <Text style={globalStyles.addButtonText}>Agregar Productos</Text>
+            </CustomButton>
+
+            {loading ? (
+                <FlatList
+                    data={skeletonItems}
+                    keyExtractor={item => item.toString()}
+                    renderItem={() => <SkeletonProductCard />}
+                    contentContainerStyle={globalStyles.listContent}
+                />
+            ) : (
+                <FlatList
+                    data={paginatedProductsInfoResponse.data}
+                    keyExtractor={item => `${item.id}`}
+                    renderItem={({ item }) => <ProductCard product={item} />}
+                    contentContainerStyle={{ paddingVertical: 10 }}
+                />
+            )}
         </View>
     );
 };
