@@ -40,9 +40,9 @@ export async function getAllSellersByStore(
   size: number = 10,
 ): Promise<PaginatedResponse<SellerInfoResponsePaginated>> {
   try {
-    const response = await axiosInstance.get<
-      PaginatedResponse<SellerInfoResponsePaginated>
-    >(`usuarios/empleados?page=${page}&size=${size}`);
+    const response = await axiosInstance.get<PaginatedResponse<SellerInfoResponsePaginated>>(
+      `usuarios/empleados?page=${page}&size=${size}`,
+    );
     return response.data;
   } catch (error: any) {
     if (error.response) {

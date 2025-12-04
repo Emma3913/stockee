@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginResponse } from '../../../core/domain/entities/Login';
+import { useRegisterDeviceToken } from '../../../app/hooks/useRegisterDeviceToken';
 
 type AuthSessionState = {
   token: string | null;
@@ -22,7 +23,6 @@ export const useAuthSessionStore = create<AuthSessionState>(set => ({
 
   setSession: async user => {
     await AsyncStorage.setItem('ACCESS_TOKEN', user.token);
-    // await AsyncStorage.setItem('UUID_STORE', user.uuidTienda);
     set({
       user,
       token: user.token,
@@ -32,7 +32,6 @@ export const useAuthSessionStore = create<AuthSessionState>(set => ({
 
   clearSession: async () => {
     await AsyncStorage.removeItem('ACCESS_TOKEN');
-    // await AsyncStorage.removeItem('UUID_STORE');
     set({
       user: null,
       token: null,
@@ -42,7 +41,6 @@ export const useAuthSessionStore = create<AuthSessionState>(set => ({
 
   initializeAuth: async () => {
     const token = await AsyncStorage.getItem('ACCESS_TOKEN');
-    // const uuidStore = await AsyncStorage.getItem('UUID_STORE');
     set({
       token,
       isAuthenticated: !!token,

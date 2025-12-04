@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { sendFCMToken } from '../../core/application/services/NotificationService';
 
 export const useRegisterDeviceToken = (userToken: string) => {
+// export const useRegisterDeviceToken = () => {
   useEffect(() => {
     if (!userToken) return;
 
@@ -19,7 +20,7 @@ export const useRegisterDeviceToken = (userToken: string) => {
         }
 
         const token = await messaging().getToken();
-        // console.log('Token actual =>', token);
+        console.log('Token actual =>', token);
 
         await sendFCMToken(token);
 
@@ -45,4 +46,5 @@ export const useRegisterDeviceToken = (userToken: string) => {
 
     return unsubscribe;
   }, [userToken]);
+  // }, []);
 };

@@ -1,5 +1,6 @@
 import axiosInstance from '../../../app/config/network/axiosIntance';
 import { LoginRequest, LoginResponse } from '../../domain/entities/Login';
+import { ResetPasswordRequest, ResetPasswordResponse } from '../../domain/entities/ResetPassword';
 
 const backendUrl = 'https://unkneaded-deepeningly-sandra.ngrok-free.dev'; // TODO: Hacer validacion de que URL esta disponible
 
@@ -30,11 +31,11 @@ export async function loginWithEmailAndPassword(
   }
 }
 
-export async function resetPasswordByEmail(email: string): Promise<string> {
+export async function resetPasswordByEmail(resetPasswordRequest: ResetPasswordRequest): Promise<ResetPasswordResponse> {
   try {
-    const response = await axiosInstance.post<{ message: string }>(
+    const response = await axiosInstance.post<{ message: ResetPasswordResponse }>(
       '/auth/reestablecer-password',
-      { email },
+      { email: resetPasswordRequest.email },
     );
 
     return response.data.message;

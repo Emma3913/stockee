@@ -38,9 +38,11 @@ const LoginScreen = () => {
         setLoading(true);
         try {
             const result = await loginWithEmailAndPassword();
+            console.log(result)
 
             if (result?.token) {
                 await setSession(result);
+                // navigation.navigate('Home');
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'Home' }],
@@ -49,6 +51,7 @@ const LoginScreen = () => {
                 setFormError('Usuario o contraseña incorrectos');
             }
         } catch (err) {
+            console.log(err)
             setFormError('Usuario o contraseña incorrectos');
         } finally {
             setLoading(false);
@@ -68,7 +71,9 @@ const LoginScreen = () => {
             <KeyboardAwareScrollView
                 contentContainerStyle={{ flexGrow: 1 }}
                 enableOnAndroid={true}
+                // enableResetScrollToCoords
                 extraScrollHeight={250}
+
             >
                 <View style={[globalStyles.loginScreenContainerBottom]}>
                     <Text style={globalStyles.loginScreenText}>Introduzca los datos a continuación para continuar.</Text>

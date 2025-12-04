@@ -41,7 +41,7 @@ export async function registerNewProduct(
 
 export async function getAllProductsByStore(
   page: number = 0,
-  size: number = 10,
+  size: number = 5,
 ): Promise<PaginatedResponse<ProductInfoResponse>> {
   try {
     const response = await axiosInstance.get<PaginatedResponse<ProductInfoResponse>>(

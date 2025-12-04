@@ -3,46 +3,75 @@ import React, { useState } from 'react'
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { TextInput } from 'react-native-gesture-handler'
+import { FlatList, TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../../../ui/components/CommonButton'
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList'
-import { resetPasswordByEmail } from '../../../core/application/services/AuthService'
+import CustomModal from '../../../ui/components/CustomModal'
+import { validateEmail } from '../../../app/utils'
+import { useAppStore } from '../../store/useStoreApp'
+import { ModalState } from '../../../app/types'
 
 const ResetPasswordScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [openModal, setOpenModal] = useState(false)
+    const [modalData, setModalData] = useState<ModalState>({
+        isVisible: false,
+        title: "",
+        description: "",
+        subDescription: "",
+        buttonTitle: "Aceptar",
+        modalWithoutButton: false,
+        goToAnotherPage: false,
+    });
 
-    const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    const { resetPasswordRequest, setResetPasswordRequest, resetPasswordByEmail } = useAppStore();
 
-    const handleSubmit = async () => {
-        setError('');
-        setMessage('');
-        if (!validateEmail(email)) {
-            setError('Ingresa un correo válido.');
+
+    const handleResetPasswordByEmail = async () => {
+        if (!validateEmail(resetPasswordRequest.email)) {
+            setModalData({
+                isVisible: true,
+                title: 'Correo inválido',
+                description: 'El correo electrónico no es válido, vuelva a intentarlo por favor.',
+                buttonTitle: "Aceptar",
+                modalWithoutButton: false,
+            });
             return;
         }
         setLoading(true);
         try {
-            const response = await resetPasswordByEmail(email.trim());
-            setMessage(response || 'Se ha enviado un correo con tu nueva contraseña.');
+            const response = await resetPasswordByEmail();
+            setModalData({
+                isVisible: true,
+                title: 'Contraseña enviada',
+                description: 'Se ha enviado un correo con tu nueva contraseña.',
+                // description: response.mensaje,
+                buttonTitle: "Aceptar",
+                modalWithoutButton: false,
 
-            setTimeout(() => {
-                if (response != null) {
-                    navigation.navigate('Login');
-                }
+            });
 
-            }, 3000)
+
         } catch (err: any) {
-            console.log("cath", err.message)
-            setError(err.message || 'Ocurrió un error al enviar el correo.');
+            console.log("cath", err.message);
+            setModalData({
+                isVisible: true,
+                title: 'Ocurrió un error',
+                description: 'Por favor intenta en unos minutos. Es probable que el error se deba al servicio',
+                buttonTitle: "Aceptar",
+                modalWithoutButton: false,
+            });
         } finally {
             setLoading(false);
         }
     };
+
+    const handleCloseModal = () => {
+        setModalData(prev => ({ ...prev, isVisible: false }))
+        navigation.navigate('Login');
+    }
 
 
 
@@ -72,13 +101,13 @@ const ResetPasswordScreen = () => {
                             placeholder="Correo electrónico"
                             placeholderTextColor="#aaa"
                             keyboardType='email-address'
-                            value={email}
-                            onChangeText={setEmail}
+                            value={resetPasswordRequest.email}
+                            onChangeText={(value) =>
+                                setResetPasswordRequest({ ...resetPasswordRequest, email: value })
+                            }
                         />
                     </View>
-                    {error ? <Text style={{ color: "red", textAlign: 'center' }}>{error}</Text> : null}
-                    {message ? <Text style={{ color: "green", textAlign: 'center' }}>{message}</Text> : null}
-                    <CustomButton onPressButton={handleSubmit} styleButton={globalStyles.resetPasswordScreenButton}>
+                    <CustomButton onPressButton={handleResetPasswordByEmail} styleButton={globalStyles.resetPasswordScreenButton}>
                         {loading ? (
                             <ActivityIndicator color={globalColors.light} size={22} />
                         ) : (
@@ -87,6 +116,11 @@ const ResetPasswordScreen = () => {
                     </CustomButton>
                 </View>
             </KeyboardAwareScrollView>
+            <CustomModal
+                {...modalData}
+                onPressButton={handleCloseModal}
+            />
+
         </View>
     )
 }
