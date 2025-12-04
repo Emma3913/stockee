@@ -11,7 +11,6 @@ axiosInstance.interceptors.request.use(
   config => {
     const { token } =
       require('../../../features/auth/state/authSession.store').useAuthSessionStore.getState();
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

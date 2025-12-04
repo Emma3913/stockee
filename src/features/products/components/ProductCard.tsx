@@ -7,15 +7,11 @@ type Props = {
 };
 
 const ProductCard = ({ product }: Props) => {
-
-    console.log("product.urlImagen: ", product.urlImagen)
-
     return (
         <View style={styles.card}>
 
             <Image
                 style={styles.image}
-                // source={{ uri: `data:image/jpeg;base64,${product.base64Image}` }}
                 source={{ uri: product.urlImagen }}
 
             />

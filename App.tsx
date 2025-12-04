@@ -10,14 +10,15 @@ import { useRegisterDeviceToken } from './src/app/hooks/useRegisterDeviceToken'
 import { initializeNotifications } from './src/app/providers/notification/initializeNotifications'
 
 const App = () => {
-  const { initializeAuth, isLoading, user } = useAuthSessionStore();
+  const { initializeAuth, isLoading } = useAuthSessionStore();
 
   useEffect(() => {
     initializeAuth();
     initializeNotifications();
   }, []);
 
-  useRegisterDeviceToken(user?.token!)
+
+  // useRegisterDeviceToken();
 
   if (isLoading) {
     return (

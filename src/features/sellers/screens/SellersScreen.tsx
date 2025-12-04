@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
-// import { ClienteService } from '../../../core/application/services/SellerService';
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalStyles } from '../../../ui/styles/globalStyles';
 import { useAppStore } from '../../store/useStoreApp';
@@ -43,14 +42,14 @@ const SellersScreen = () => {
 
             {loading ? (
                 <FlatList
-                    data={paginatedSellersInfoResponse.items}
+                    data={paginatedSellersInfoResponse.data}
                     keyExtractor={(item) => item.toString()}
                     renderItem={() => <SkeletonCardSellers />}
                     contentContainerStyle={globalStyles.listContent}
                 />
             ) : (
                 <FlatList
-                    data={paginatedSellersInfoResponse.items}
+                    data={paginatedSellersInfoResponse.data}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity

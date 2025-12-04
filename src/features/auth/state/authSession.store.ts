@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginResponse } from '../../../core/domain/entities/Login';
+import { useRegisterDeviceToken } from '../../../app/hooks/useRegisterDeviceToken';
 
 type AuthSessionState = {
   token: string | null;
