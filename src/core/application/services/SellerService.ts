@@ -1,19 +1,22 @@
 import axiosInstance from '../../../app/config/network/axiosIntance';
 
-import { SellerInfoRequest, SellerInfoResponse, SellerInfoResponsePaginated } from '../../domain/entities/Seller';
+import {
+  SellerInfoRequest,
+  SellerInfoResponse,
+  SellerInfoResponsePaginated,
+} from '../../domain/entities/Seller';
 import { PaginatedResponse } from '../../domain/types';
-
 
 export async function registrerNewSeller(
   sellerInfoRequest: SellerInfoRequest,
 ): Promise<SellerInfoResponse> {
   try {
     const response = await axiosInstance.post<SellerInfoResponse>(
-      'registrar/vendedor',
+      'usuarios/registrar/vendedor',
       {
         nombre: sellerInfoRequest.nombre,
         email: sellerInfoRequest.email,
-        password: sellerInfoRequest.password, 
+        password: sellerInfoRequest.password,
       },
     );
 
@@ -37,9 +40,9 @@ export async function getAllSellersByStore(
   size: number = 10,
 ): Promise<PaginatedResponse<SellerInfoResponsePaginated>> {
   try {
-    const response = await axiosInstance.get<PaginatedResponse<SellerInfoResponsePaginated>>(
-      `empleados?page=${page}&size=${size}`,
-    );
+    const response = await axiosInstance.get<
+      PaginatedResponse<SellerInfoResponsePaginated>
+    >(`usuarios/empleados?page=${page}&size=${size}`);
     return response.data;
   } catch (error: any) {
     if (error.response) {
