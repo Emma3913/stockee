@@ -15,6 +15,7 @@ export async function createNotificationChannel() {
 
 export function listenNotifications() {
   messaging().onMessage(async (remoteMessage) => {
+    console.log("remoteMessage: ", remoteMessage)
     try {
       await createNotificationChannel();
 

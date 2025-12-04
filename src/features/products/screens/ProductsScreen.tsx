@@ -33,7 +33,7 @@ const ProductsScreen = () => {
             <Text style={styles.title}>Análisis de stock</Text>
 
             <FlatList
-                data={paginatedProductsInfoResponse.items}
+                data={paginatedProductsInfoResponse.data}
                 keyExtractor={(item) => `${item.id}`}
                 renderItem={({ item }) => (
                     <ProductCard product={item} />

@@ -1,5 +1,5 @@
 export type PaginatedResponse<T> = {
-  items: T[];
+  data: T[];
   currentPage: number;
   nextPage: number | null;
   previousPage: number | null;

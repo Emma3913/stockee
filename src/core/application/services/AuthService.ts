@@ -31,11 +31,11 @@ export async function loginWithEmailAndPassword(
   }
 }
 
-export async function resetPasswordByEmail(email: ResetPasswordRequest): Promise<ResetPasswordResponse> {
+export async function resetPasswordByEmail(resetPasswordRequest: ResetPasswordRequest): Promise<ResetPasswordResponse> {
   try {
     const response = await axiosInstance.post<{ message: ResetPasswordResponse }>(
       '/auth/reestablecer-password',
-      { email },
+      { email: resetPasswordRequest.email },
     );
 
     return response.data.message;

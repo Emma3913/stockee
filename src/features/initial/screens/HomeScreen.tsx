@@ -2,14 +2,19 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import CustomButton from '../../../ui/components/CommonButton';
 import { useAuthSessionStore } from '../../auth/state/authSession.store';
+import { useEffect } from 'react';
+import { useRegisterDeviceToken } from '../../../app/hooks/useRegisterDeviceToken';
 
 const HomeScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { clearSession } = useAuthSessionStore();
+    const { user } = useAuthSessionStore();
+
+    useRegisterDeviceToken(user?.token!);
 
     const features = [
         { name: 'Productos', route: 'Products', icon: <FontAwesomeIcon name="cube" size={60} color={globalColors.semidark} /> },

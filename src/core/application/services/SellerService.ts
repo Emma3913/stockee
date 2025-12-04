@@ -9,7 +9,7 @@ export async function registrerNewSeller(
 ): Promise<SellerInfoResponse> {
   try {
     const response = await axiosInstance.post<SellerInfoResponse>(
-      'registrar/vendedor',
+      'usuarios/registrar/vendedor',
       {
         nombre: sellerInfoRequest.nombre,
         email: sellerInfoRequest.email,
@@ -38,7 +38,7 @@ export async function getAllSellersByStore(
 ): Promise<PaginatedResponse<SellerInfoResponsePaginated>> {
   try {
     const response = await axiosInstance.get<PaginatedResponse<SellerInfoResponsePaginated>>(
-      `empleados?page=${page}&size=${size}`,
+      `usuarios/empleados?page=${page}&size=${size}`,
     );
     return response.data;
   } catch (error: any) {

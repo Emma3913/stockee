@@ -44,7 +44,7 @@ export const createAuthSlice: StateCreator<
   },
 
   resetPasswordResponse: {
-    message: ''
+    mensaje: ''
   },
 
   setLoginRequest: request => set({ loginRequest: request }),

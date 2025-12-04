@@ -3,5 +3,5 @@ export type ResetPasswordRequest = {
 }
 
 export type ResetPasswordResponse = {
-    message: string;
+    mensaje: string;
 }

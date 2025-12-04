@@ -13,18 +13,7 @@ import {
 import React, { useRef, useEffect } from 'react';
 import { BlurView } from '@react-native-community/blur';
 import { uiStyles } from '../styles/uiStyles';
-
-type CustomModalProps = {
-    isVisible?: boolean;
-    title?: string;
-    description?: string;
-    subDescription?: string;
-    buttonTitle?: string;
-    onPressButton?: () => void;
-    closeAnimation?: () => void;
-    modalWithoutButton?: boolean;
-    goToAnotherPage?: boolean;
-};
+import { CustomModalProps } from '../../app/types';
 
 const ModalContent = ({
     title,
@@ -138,8 +127,8 @@ function CustomModal({
                     {!goToAnotherPage && (
                         <BlurView
                             style={StyleSheet.absoluteFill}
-                            blurType="dark"
-                            blurAmount={6}
+                            blurType="light"
+                            blurAmount={5}
                         />
                     )}
                 </Animated.View>
