@@ -40,7 +40,7 @@ export const createSellersSlice: StateCreator<
     uuidTienda: ''
   },
   paginatedSellersInfoResponse: {
-    items: [],
+    data: [],
     currentPage: 0,
     nextPage: null,
     previousPage: null,

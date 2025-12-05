@@ -23,6 +23,8 @@ export type ProductsSliceType = {
     page?: number,
     size?: number,
   ) => Promise<PaginatedResponse<ProductInfoResponse>>;
+  resetProductInfoRequest: () => void;
+
 };
 
 export const createProductsSlice: StateCreator<
@@ -56,7 +58,7 @@ export const createProductsSlice: StateCreator<
   },
 
   paginatedProductsInfoResponse: {
-    items: [],
+    data: [],
     currentPage: 0,
     nextPage: null,
     previousPage: null,
@@ -75,6 +77,7 @@ export const createProductsSlice: StateCreator<
   registerNewProduct: async () => {
     const response = await registerNewProduct(get().productInfoRequest);
     set({ productInfoResponse: response });
+    get().resetProductInfoRequest();
     return response;
   },
 
@@ -83,4 +86,17 @@ export const createProductsSlice: StateCreator<
     set({ paginatedProductsInfoResponse: response });
     return response;
   },
+
+    resetProductInfoRequest: () =>
+    set({
+      productInfoRequest: {
+        base64Image: '',
+        codigoBarras: '',
+        descripcion: '',
+        precio: 0,
+        stock: 0,
+        estatus: true,
+        urlImagen: '',
+      },
+    }),
 });

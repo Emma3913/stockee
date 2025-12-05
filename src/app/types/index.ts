@@ -1,7 +1,7 @@
 export type CustomModalProps = {
     isVisible?: boolean;
     title?: string;
-    description?: string;
+    description?: string | unknown;
     subDescription?: string;
     buttonTitle?: string;
     onPressButton?: () => void;

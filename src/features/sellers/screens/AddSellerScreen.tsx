@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 
-import { globalStyles } from '../../../ui/styles/globalStyles';
+import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
 import { useAppStore } from '../../store/useStoreApp';
 
 const AddSellerScreen = () => {
@@ -35,72 +35,167 @@ const AddSellerScreen = () => {
     };
 
     return (
-        <ScrollView style={globalStyles.containerAddEmployeeScreen} contentContainerStyle={globalStyles.scrollContent}>
-            <Text style={globalStyles.title}>Nuevo Empleado</Text>
-            <Text style={globalStyles.subtitle}>Registra un nuevo usuario para el empleado</Text>
-            <View style={globalStyles.form}>
-                <Text style={globalStyles.label}>Nombre *</Text>
-                <TextInput
-                    style={globalStyles.input}
-                    placeholder="Ej: Juan Pérez"
-                    value={sellerInfoRequest.nombre}
-                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, nombre: value })}
-                    placeholderTextColor="#999"
-                />
-                <Text style={globalStyles.label}>Email *</Text>
-                <TextInput
-                    style={globalStyles.input}
-                    placeholder="correo@ejemplo.com"
-                    value={sellerInfoRequest.email}
-                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, email: value })}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    placeholderTextColor="#999"
-                />
-                <Text style={globalStyles.label}>Contraseña *</Text>
-                <TextInput
-                    style={globalStyles.input}
-                    placeholder="Contraseña"
-                    value={sellerInfoRequest.password}
-                    onChangeText={(value) => setSellerInfoRequest({ ...sellerInfoRequest, password: value })}
-                    secureTextEntry
-                    placeholderTextColor="#999"
-                />
-                {/* <Text style={globalStyles.label}>Rol</Text>
-                <TextInput
-                    style={[globalStyles.input, globalStyles.disabledInput]}
-                    value="EMPLEADO"
-                    editable={false}
-                /> */}
-                {/* <Text style={globalStyles.label}>Tienda</Text> */}
-                {/* <TextInput
-                    style={[globalStyles.input, globalStyles.disabledInput]}
-                    value="Tienda la Poblanita"
-                    editable={false}
-                /> */}
-                <TouchableOpacity
-                    style={[globalStyles.submitButton, loading && globalStyles.disabledButton]}
-                    onPress={handleAddSeller}
-                    disabled={loading}
-                >
-                    <Text style={globalStyles.submitButtonText}>
-                        {loading ? 'Registrando...' : 'Guardar vemdedor'}
-                    </Text>
-                </TouchableOpacity>
+        <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+            {/* Header */}
+            <Text style={styles.headerTitle}>Nuevo Empleado</Text>
+            <Text style={styles.headerSubtitle}>
+                Registra un nuevo usuario para el empleado
+            </Text>
 
-                {/* {error ? <Text style={globalStyles.error}>{error}</Text> : null}
-                {success ? <Text style={globalStyles.success}>{success}</Text> : null} */}
+            {/* Sección principal */}
+            <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Información del Empleado</Text>
 
-                {/* <TouchableOpacity
-                    style={globalStyles.cancelButton}
-                    onPress={handleCancel}
-                    disabled={loading}
-                >
-                    <Text style={globalStyles.cancelButtonText}>Cancelar</Text>
-                </TouchableOpacity> */}
+                <View style={styles.inputGroup}>
+                    <Text style={styles.label}>Nombre *</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Ej: Juan Pérez"
+                        value={sellerInfoRequest.nombre}
+                        onChangeText={v =>
+                            setSellerInfoRequest({ ...sellerInfoRequest, nombre: v })
+                        }
+                        placeholderTextColor="#A0A0A0"
+                    />
+                </View>
+
+                <View style={styles.inputGroup}>
+                    <Text style={styles.label}>Email *</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="correo@ejemplo.com"
+                        value={sellerInfoRequest.email}
+                        onChangeText={v =>
+                            setSellerInfoRequest({ ...sellerInfoRequest, email: v })
+                        }
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        placeholderTextColor="#A0A0A0"
+                    />
+                </View>
+
+                <View style={styles.inputGroup}>
+                    <Text style={styles.label}>Contraseña *</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="••••••••"
+                        value={sellerInfoRequest.password}
+                        onChangeText={v =>
+                            setSellerInfoRequest({ ...sellerInfoRequest, password: v })
+                        }
+                        secureTextEntry
+                        placeholderTextColor="#A0A0A0"
+                    />
+                </View>
             </View>
+
+            {/* Botón */}
+            <TouchableOpacity
+                style={[styles.mainButton, loading && styles.disabled]}
+                onPress={handleAddSeller}
+                disabled={loading}
+            >
+                <Text style={styles.mainButtonText}>
+                    {loading ? 'Registrando...' : 'Guardar empleado'}
+                </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.cancelButton} disabled={loading}>
+                <Text style={styles.cancelButtonText}>Cancelar</Text>
+            </TouchableOpacity>
         </ScrollView>
+
     );
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: "#F5F5F7",
+    },
+    content: {
+        padding: 20,
+    },
+
+    // Header
+    headerTitle: {
+        fontSize: 24,
+        fontWeight: "700",
+        color: "#111",
+        marginBottom: 4,
+    },
+    headerSubtitle: {
+        fontSize: 14,
+        color: "#666",
+        marginBottom: 20,
+    },
+
+    // Sección
+    section: {
+        backgroundColor: "#fff",
+        padding: 18,
+        borderRadius: 14,
+        marginBottom: 20,
+        shadowColor: "#000",
+        shadowOpacity: 0.08,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 6,
+        elevation: 3,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: "#222",
+        marginBottom: 12,
+    },
+
+    // Inputs
+    inputGroup: {
+        marginBottom: 16,
+    },
+    label: {
+        fontSize: 14,
+        color: "#333",
+        marginBottom: 6,
+    },
+    input: {
+        backgroundColor: "#F8F8F8",
+        borderRadius: 10,
+        padding: 14,
+        fontSize: 15,
+        borderWidth: 1,
+        borderColor: "#E0E0E0",
+    },
+
+    // Botón principal estilo "Continue"
+    mainButton: {
+        backgroundColor: globalColors.primary,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: "center",
+        marginBottom: 12,
+    },
+    mainButtonText: {
+        color: "#fff",
+        fontSize: 17,
+        fontWeight: "600",
+    },
+    disabled: {
+        opacity: 0.5,
+    },
+
+    // Botón cancelar
+    cancelButton: {
+        padding: 14,
+        borderRadius: 12,
+        alignItems: "center",
+        backgroundColor: globalColors.tertiary,
+    },
+    cancelButtonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "500",
+    },
+});
 
 export default AddSellerScreen;
