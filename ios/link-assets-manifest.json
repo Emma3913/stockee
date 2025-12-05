@@ -2,6 +2,18 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/MaterialSymbolsOutlined.ttf",
+      "sha1": "31af007630ec4a0e7b9a317c25c9fc5d664bf21a"
+    },
+    {
+      "path": "assets/fonts/MaterialSymbolsRounded.ttf",
+      "sha1": "b5bfd36e6096b51b9c2ffecfc927bfbb838a9a5d"
+    },
+    {
+      "path": "assets/fonts/MaterialSymbolsSharp.ttf",
+      "sha1": "b212c99913938ae19fd6254a4f64c451ebce4ecf"
+    },
+    {
       "path": "assets/fonts/Satoshi-Variable.ttf",
       "sha1": "d49872a745842f389bc9d24b73d0a3090fce50b1"
     }
