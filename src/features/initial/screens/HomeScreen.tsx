@@ -23,6 +23,8 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { HomeDrawerParamList } from '../../../app/navigation/drawer/HomeDrawerNavigator';
 import { features } from '../../../app/utils/features';
 import HeaderMenu from '../../../ui/components/HeaderMenu';
+import ExploreScreen from '../../../ui/screens/ExploreScreen';
+import { use } from 'react';
 
 const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -30,11 +32,14 @@ const HomeScreen = () => {
 
   useRegisterDeviceToken(user?.token!);
 
+  const allowedFeatures = features.filter(f => f.roles.includes(user?.rol!));
+
   return (
     <View style={globalStyles.container}>
       <HeaderMenu title="Stockee" />
+
       <View style={globalStyles.grid}>
-        {features.map((f, i) => (
+        {allowedFeatures.map((f, i) => (
           <CustomButton
             key={i}
             onPressButton={() => navigation.navigate(f.route as any)}

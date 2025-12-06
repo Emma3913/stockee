@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Sales: undefined;
   ResetPassword: undefined;
   AddProducts: undefined;
-  Camera: undefined;
+  Camera: { go?: boolean };
   ShoppingCart: undefined;
+  SalesReport: undefined;
 };

@@ -1,61 +1,126 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import CartItem from '../components/CartItem';
+import { useCallback, useState } from 'react';
+import { useAppStore } from '../../store/useStoreApp';
+import { useFocusEffect } from '@react-navigation/native';
+import HeaderMenu from '../../../ui/components/HeaderMenu';
+import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
+import CustomButton from '../../../ui/components/CommonButton';
+import { ModalState } from '../../../app/types';
+import { GoogleIcon } from '../../../ui/components/GoogleIcons';
 
-type ShoppingCartScreenProps = {
-  cart?: any;
-};
+export default function ShoppingCartScreen() {
+  const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [modalData, setModalData] = useState<ModalState>({
+    isVisible: false,
+    title: '',
+    description: '',
+    subDescription: '',
+    buttonTitle: 'Aceptar',
+    modalWithoutButton: false,
+    goToAnotherPage: false,
+  });
+  const {
+    paginatedShoppingCartInfoResponse,
+    getAllProductsInTheShoppingCart,
+    endSale,
+  } = useAppStore();
 
-export default function ShoppingCartScreen({ cart }: ShoppingCartScreenProps) {
-  // const total = cart.reduce((acc, p) => acc + p.precio * p.qty, 0);
+  const loadProductsInTheShoppinCart = useCallback(async () => {
+    setLoading(true);
+    try {
+      await getAllProductsInTheShoppingCart();
+    } catch (error) {
+      console.error('Error cargando productos:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [getAllProductsInTheShoppingCart]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadProductsInTheShoppinCart();
+    }, [loadProductsInTheShoppinCart]),
+  );
+
+  const handleEndSale = async () => {
+    setLoading(true);
+    try {
+      const response = await endSale();
+      setModalData({
+        isVisible: true,
+        title: 'Venta finalizada',
+        description: 'Se ha finalizado con éxito la venta',
+        buttonTitle: 'Aceptar',
+        modalWithoutButton: false,
+      });
+    } catch (err: any) {
+      console.log('cath', err.message);
+      setModalData({
+        isVisible: true,
+        title: 'Ocurrió un error',
+        description:
+          'Por favor intenta en unos minutos. Es probable que el error se deba al servicio',
+        buttonTitle: 'Aceptar',
+        modalWithoutButton: false,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const total = paginatedShoppingCartInfoResponse.data?.info.totalPagar!;
   const discount = 38; // ejemplo
-  // const finalPayment = total - discount;
+  const finalPayment = total - discount;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Carrito</Text>
+    <View style={globalStyles.container}>
+      <HeaderMenu title="Carrito" />
+      {paginatedShoppingCartInfoResponse.data?.items ? (
+        <FlatList
+          data={paginatedShoppingCartInfoResponse.data?.items}
+          keyExtractor={item => `${item}`}
+          renderItem={({ item }) => <CartItem product={item} />}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      ) : (
+        <View style={styles.emptyContainer}>
+          <View style={styles.iconWrapper}>
+            <GoogleIcon
+              name="shopping_cart_off"
+              variant="rounded"
+              size={40}
+              color={globalColors.dark}
+            />
+          </View>
 
-      <FlatList
-        data={cart}
-        keyExtractor={item => `${item.id}`}
-        renderItem={({ item }) => <CartItem product={item} />}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      />
+          <Text style={styles.emptyText}>No hay productos en el carrito</Text>
+        </View>
+      )}
 
       {/* RESUMEN */}
       <View style={styles.summaryBox}>
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Order Amount</Text>
-          {/* <Text style={styles.summaryValue}>${total.toFixed(2)}</Text> */}
-        </View>
-
-        <View style={styles.summaryRow}>
-          <Text style={styles.summaryLabel}>Discount</Text>
-          <Text style={styles.summaryValue}>-${discount.toFixed(2)}</Text>
-        </View>
-
         <View style={styles.separator} />
 
         <View style={styles.summaryRow}>
-          <Text style={styles.summaryTotal}>Total Payment</Text>
-          {/* <Text style={styles.summaryTotal}>${finalPayment.toFixed(2)}</Text> */}
+          <Text style={styles.summaryTotal}>Total a pagar</Text>
+          <Text style={styles.summaryTotal}>
+            ${paginatedShoppingCartInfoResponse.data?.info.totalPagar}
+          </Text>
         </View>
       </View>
 
-      {/* BOTÓN */}
       <View style={styles.footer}>
-        <Text style={styles.checkoutButton}>Checkout</Text>
+        <CustomButton onPressButton={handleEndSale}>
+          <Text style={styles.checkoutButton}>Finalizar compra</Text>
+        </CustomButton>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8F8F8',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
   title: {
     fontSize: 24,
     fontWeight: '700',
@@ -165,7 +230,7 @@ const styles = StyleSheet.create({
 
   /* FOOTER */
   footer: {
-    backgroundColor: '#FF8A3D',
+    backgroundColor: globalColors.primary,
     padding: 16,
     borderRadius: 30,
     marginBottom: 20,
@@ -175,5 +240,27 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '700',
+  },
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  iconWrapper: {
+    backgroundColor: globalColors.light,
+    borderRadius: 50,
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  emptyText: {
+    fontSize: 22,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: globalColors.dark,
   },
 });

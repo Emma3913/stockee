@@ -34,7 +34,7 @@ const ProductsScreen = () => {
   type HomeDrawerNav = DrawerNavigationProp<HomeDrawerParamList>;
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const navigationDrawer = useNavigation<HomeDrawerNav>();
+
   const loadProducts = useCallback(async () => {
     setLoading(true);
     try {
@@ -52,10 +52,10 @@ const ProductsScreen = () => {
     }, [loadProducts]),
   );
 
-  // const totalItemsRequest = paginatedProductsInfoResponse.data.length;
-  // const skeletonItems = Array.from({ length: totalItemsRequest }).map(
-  // (_, i) => i,
-  // );
+  const totalItemsRequest = paginatedProductsInfoResponse.data.length;
+  const skeletonItems = Array.from({ length: totalItemsRequest }).map(
+    (_, i) => i,
+  );
 
   return (
     <View style={globalStyles.container}>
@@ -87,7 +87,7 @@ const ProductsScreen = () => {
 
       {loading ? (
         <FlatList
-          data={paginatedProductsInfoResponse.data}
+          data={skeletonItems}
           keyExtractor={item => item.toString()}
           renderItem={() => <SkeletonProductCard />}
           contentContainerStyle={globalStyles.listContent}

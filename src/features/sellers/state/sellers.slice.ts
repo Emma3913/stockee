@@ -1,24 +1,32 @@
 import { StateCreator } from 'zustand';
 import { AuthSliceType } from '../../auth/state/authLogin.slice';
 import { OwnerSliceType } from '../../owner/state/owner.slice';
-import { SellerInfoRequest, SellerInfoResponse, SellerInfoResponsePaginated } from '../../../core/domain/entities/Seller';
+import {
+  SellerInfoRequest,
+  SellerInfoResponse,
+  SellerInfoResponsePaginated,
+} from '../../../core/domain/entities/Seller';
 import { PaginatedResponse } from '../../../core/domain/types';
-import { getAllSellersByStore, registrerNewSeller } from '../../../core/application/services/SellerService';
+import {
+  getAllSellersByStore,
+  registrerNewSeller,
+} from '../../../core/application/services/SellerService';
 
 export type SellersSliceType = {
   sellerInfoRequest: SellerInfoRequest;
   paginatedSellersInfoResponse: PaginatedResponse<SellerInfoResponsePaginated>;
   sellerInfoResponse: SellerInfoResponse;
   setSellerInfoRequest: (
-      updater:
-        | SellerInfoRequest
-        | ((prev: SellerInfoRequest) => SellerInfoRequest),
-    ) => void;
-    registrerNewSeller: () => Promise<SellerInfoResponse>;
-    getAllSellersByStore: (
-      page?: number,
-      size?: number,
-    ) => Promise<PaginatedResponse<SellerInfoResponsePaginated>>;
+    updater:
+      | SellerInfoRequest
+      | ((prev: SellerInfoRequest) => SellerInfoRequest),
+  ) => void;
+  registrerNewSeller: () => Promise<SellerInfoResponse>;
+  getAllSellersByStore: (
+    page?: number,
+    size?: number,
+  ) => Promise<PaginatedResponse<SellerInfoResponsePaginated>>;
+  resetSellerInfoRequest: () => void;
 };
 
 export const createSellersSlice: StateCreator<
@@ -27,7 +35,7 @@ export const createSellersSlice: StateCreator<
   [],
   SellersSliceType
 > = (set, get) => ({
-  sellerInfoRequest: { 
+  sellerInfoRequest: {
     email: '',
     nombre: '',
     password: '',
@@ -37,7 +45,7 @@ export const createSellersSlice: StateCreator<
     rol: '',
     tiendaId: 0,
     token: '',
-    uuidTienda: ''
+    uuidTienda: '',
   },
   paginatedSellersInfoResponse: {
     data: [],
@@ -47,23 +55,32 @@ export const createSellersSlice: StateCreator<
     totalItems: 0,
     totalPages: 0,
   },
-   setSellerInfoRequest: updater =>
-      set(state => ({
-        sellerInfoRequest:
-          typeof updater === 'function'
-            ? updater(state.sellerInfoRequest)
-            : updater,
-      })),
-  
-    registrerNewSeller: async () => {
-      const response = await registrerNewSeller(get().sellerInfoRequest);
-      set({ sellerInfoResponse: response });
-      return response;
-    },
-  
-    getAllSellersByStore: async (page = 0, size = 30) => {
-      const response = await getAllSellersByStore(page, size);
-      set({ paginatedSellersInfoResponse: response });
-      return response;
-    },
+  setSellerInfoRequest: updater =>
+    set(state => ({
+      sellerInfoRequest:
+        typeof updater === 'function'
+          ? updater(state.sellerInfoRequest)
+          : updater,
+    })),
+
+  registrerNewSeller: async () => {
+    const response = await registrerNewSeller(get().sellerInfoRequest);
+    set({ sellerInfoResponse: response });
+    get().resetSellerInfoRequest();
+    return response;
+  },
+
+  getAllSellersByStore: async (page = 0, size = 30) => {
+    const response = await getAllSellersByStore(page, size);
+    set({ paginatedSellersInfoResponse: response });
+    return response;
+  },
+  resetSellerInfoRequest: () =>
+    set({
+      sellerInfoRequest: {
+        email: '',
+        nombre: '',
+        password: '',
+      },
+    }),
 });

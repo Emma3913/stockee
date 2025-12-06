@@ -8,15 +8,27 @@ import {
   createProductsSlice,
   ProductsSliceType,
 } from '../products/state/products.slice';
-import { createSellersSlice, SellersSliceType } from '../sellers/state/sellers.slice';
+import {
+  createSellersSlice,
+  SellersSliceType,
+} from '../sellers/state/sellers.slice';
+import {
+  createShoppingCartSlice,
+  ShoppingCartSliceType,
+} from '../shoppingCart/state/shoppingCart.slice';
 
 export const useAppStore = create<
-  AuthSliceType & SellersSliceType & OwnerSliceType & ProductsSliceType
+  AuthSliceType &
+    SellersSliceType &
+    OwnerSliceType &
+    ProductsSliceType &
+    ShoppingCartSliceType
 >()(
   devtools((...a) => ({
     ...createAuthSlice(...a),
     ...createSellersSlice(...a),
     ...createOwnerSlice(...a),
     ...createProductsSlice(...a),
+    ...createShoppingCartSlice(...a),
   })),
 );

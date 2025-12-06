@@ -40,10 +40,10 @@ const SellersScreen = () => {
     }, [loadSellers]),
   );
 
-  // const totalItemsFetch = paginatedSellersInfoResponse.data.length;
-  // const skeletonItems = Array.from({ length: totalItemsFetch }).map(
-  // (_, i) => i,
-  // );
+  const totalItemsFetch = paginatedSellersInfoResponse.data.length;
+  const skeletonItems = Array.from({ length: totalItemsFetch }).map(
+    (_, i) => i,
+  );
 
   return (
     <View style={globalStyles.container}>
@@ -58,7 +58,7 @@ const SellersScreen = () => {
 
       {loading ? (
         <FlatList
-          data={paginatedSellersInfoResponse.data}
+          data={skeletonItems}
           keyExtractor={item => item.toString()}
           renderItem={() => <SkeletonCardSellers />}
           contentContainerStyle={globalStyles.listContent}

@@ -19,6 +19,7 @@ import AddSellerScreen from '../../features/sellers/screens/AddSellerScreen';
 import DetailSeller from '../../features/sellers/screens/DetailSellerScreen';
 import { HomeDrawerNavigator } from './drawer/HomeDrawerNavigator';
 import ShoppingCartScreen from '../../features/shoppingCart/screens/ShoppingCartScreen';
+// import SalesReportScreen from '../../features/salesReport/screens/SalesReportScree n';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -45,6 +46,7 @@ const StackNavigator = () => {
           <Stack.Screen name="Sales" component={SalesScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+          {/* <Stack.Screen name="SalesReport" component={SalesReportScreen} /> */}
         </>
       ) : (
         <>

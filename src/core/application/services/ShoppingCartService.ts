@@ -1,16 +1,25 @@
-import axiosInstance from "../../../app/config/network/axiosIntance";
-import { ProductInfoResponse } from "../../domain/entities/Products";
-import { AddProductToShoppingCartRequest, AddProductToShoppingCartResponse, ShoppingCartResponse } from "../../domain/entities/ShoppingCart";
-import { PaginatedResponse } from "../../domain/types";
+import axiosInstance from '../../../app/config/network/axiosIntance';
+import { ProductInfoResponse } from '../../domain/entities/Products';
+import {
+  AddProductToShoppingCartRequest,
+  AddProductToShoppingCartResponse,
+  ShoppingCartResponse,
+} from '../../domain/entities/ShoppingCart';
+import {
+  PaginatedResponse,
+  PaginatedResponseShoppingCart,
+} from '../../domain/types';
 
 export async function getAllProductsInTheShoppingCart(
   page: number = 0,
   size: number = 5,
-): Promise<PaginatedResponse<ShoppingCartResponse>> {
+): Promise<PaginatedResponseShoppingCart<ShoppingCartResponse>> {
   try {
-    const response = await axiosInstance.get<PaginatedResponse<ShoppingCartResponse>>(
-      `carrito?page=${page}&size=${size}`,
-    );
+    const response = await axiosInstance.get<
+      PaginatedResponseShoppingCart<ShoppingCartResponse>
+    >(`carrito?page=${page}&size=${size}`);
+
+    console.log(response.data);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -30,10 +39,13 @@ export async function addProductsToShoppingCart(
   addProductToShoppingCartRequest: AddProductToShoppingCartRequest,
 ): Promise<AddProductToShoppingCartResponse> {
   try {
-    const response = await axiosInstance.post<AddProductToShoppingCartResponse>('carrito/add-product', {
-      codigoBarras: addProductToShoppingCartRequest.codigoBarras,
-      cantidad: addProductToShoppingCartRequest.cantidad,
-    });
+    const response = await axiosInstance.post<AddProductToShoppingCartResponse>(
+      'carrito/add-product',
+      {
+        codigoBarras: addProductToShoppingCartRequest.codigoBarras,
+        cantidad: addProductToShoppingCartRequest.cantidad,
+      },
+    );
 
     return response.data;
   } catch (error: any) {

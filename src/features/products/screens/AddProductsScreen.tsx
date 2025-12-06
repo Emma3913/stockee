@@ -10,6 +10,7 @@ import { useAppStore } from '../../store/useStoreApp';
 import { GoogleIcon } from '../../../ui/components/GoogleIcons';
 import { ModalState } from '../../../app/types';
 import CustomModal from '../../../ui/components/CustomModal';
+import HeaderMenu from '../../../ui/components/HeaderMenu';
 
 const AddProductsScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -48,7 +49,8 @@ const AddProductsScreen = () => {
       setModalData({
         isVisible: true,
         title: 'Error al registrar producto',
-        description: 'Asegúrate de llenar todos los campos.',
+        // description: 'Asegúrate de llenar todos los campos.',
+        description: err,
         buttonTitle: 'Aceptar',
         modalWithoutButton: false,
       });
@@ -78,7 +80,7 @@ const AddProductsScreen = () => {
     }
   };
 
-  const goToCameraScreen = () => navigation.navigate('Camera');
+  const goToCameraScreen = () => navigation.navigate('Camera', { go: false });
 
   const handleCloseModal = () => {
     setModalData(prev => ({ ...prev, isVisible: false }));
@@ -86,9 +88,11 @@ const AddProductsScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    // <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView style={globalStyles.container}>
       {/* Header */}
-      <Text style={styles.headerTitle}>Nuevo Producto</Text>
+      <HeaderMenu title="Nuevo Producto" />
+      {/* <Text style={styles.headerTitle}>Nuevo Producto</Text> */}
       <Text style={styles.headerSubtitle}>
         Registra un nuevo producto para que esté disponible
       </Text>
@@ -220,6 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   headerSubtitle: {
+    textAlign: 'center',
     fontSize: 14,
     color: '#666',
     marginBottom: 20,

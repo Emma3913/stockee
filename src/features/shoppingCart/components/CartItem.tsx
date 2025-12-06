@@ -1,10 +1,12 @@
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
+import { ProductShoppingCartResponse } from '../../../core/domain/entities/ShoppingCart';
 
 type CartItemProps = {
   product: any;
 };
 
 export default function CartItem({ product }: CartItemProps) {
+  console.log(product);
   return (
     <View style={styles.card}>
       <Image source={{ uri: product.urlImagen }} style={styles.image} />
@@ -12,21 +14,15 @@ export default function CartItem({ product }: CartItemProps) {
       <View style={styles.info}>
         <Text style={styles.name}>{product.descripcion}</Text>
 
-        <View style={styles.row}>
-          <Text style={styles.rating}>⭐ {product.rating ?? 3.5}</Text>
-          <Text style={styles.size}>Size {product.size ?? 40}</Text>
-        </View>
-
-        <Text style={styles.price}>US${product.precio}</Text>
+        <Text style={styles.price}>MXN${product.precio}</Text>
       </View>
 
-      {/* CONTROLES */}
       <View style={styles.qtyBox}>
         <Pressable style={styles.qtyButton}>
           <Text style={styles.qtySymbol}>-</Text>
         </Pressable>
 
-        <Text style={styles.qtyNumber}>{product.qty ?? 1}</Text>
+        <Text style={styles.qtyNumber}>{product.stock ?? 1}</Text>
 
         <Pressable style={styles.qtyButton}>
           <Text style={styles.qtySymbol}>+</Text>

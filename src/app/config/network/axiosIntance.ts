@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'https://s2tq3m0f-8080.usw3.devtunnels.ms/',
+  baseURL: 'https://store-1-9jzc.onrender.com/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,6 +11,8 @@ axiosInstance.interceptors.request.use(
   config => {
     const { token } =
       require('../../../features/auth/state/authSession.store').useAuthSessionStore.getState();
+
+    // console.log(token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

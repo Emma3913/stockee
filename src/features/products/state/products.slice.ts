@@ -7,7 +7,12 @@ import {
 } from '../../../core/domain/entities/Products';
 import { PaginatedResponse } from '../../../core/domain/types';
 import { SellersSliceType } from '../../sellers/state/sellers.slice';
-import { getAllProductsByStore, registerNewProduct } from '../../../core/application/services/ProductsService';
+import {
+  findProdcutByBarcode,
+  getAllProductsByStore,
+  registerNewProduct,
+} from '../../../core/application/services/ProductsService';
+import { StyleBuilderConfig } from 'react-native-reanimated/lib/typescript/common';
 
 export type ProductsSliceType = {
   productInfoResponse: ProductInfoResponse;
@@ -24,7 +29,7 @@ export type ProductsSliceType = {
     size?: number,
   ) => Promise<PaginatedResponse<ProductInfoResponse>>;
   resetProductInfoRequest: () => void;
-
+  findProdcutByBarcode: (barcode: string) => Promise<ProductInfoResponse>;
 };
 
 export const createProductsSlice: StateCreator<
@@ -40,7 +45,7 @@ export const createProductsSlice: StateCreator<
     precio: 0,
     stock: 0,
     estatus: true,
-    urlImagen: ''
+    urlImagen: '',
   },
 
   productInfoResponse: {
@@ -87,7 +92,7 @@ export const createProductsSlice: StateCreator<
     return response;
   },
 
-    resetProductInfoRequest: () =>
+  resetProductInfoRequest: () =>
     set({
       productInfoRequest: {
         base64Image: '',
@@ -99,4 +104,10 @@ export const createProductsSlice: StateCreator<
         urlImagen: '',
       },
     }),
+
+  findProdcutByBarcode: async (barcode: string) => {
+    const response = await findProdcutByBarcode(barcode);
+    set({ productInfoResponse: response });
+    return response;
+  },
 });
