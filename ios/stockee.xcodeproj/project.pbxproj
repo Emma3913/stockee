@@ -15,6 +15,8 @@
 		D9A174B2CD3F44BBA19F7DF8 /* MaterialSymbolsOutlined.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17B26853E45847E4BC87E913 /* MaterialSymbolsOutlined.ttf */; };
 		D00E129EA9A540DA89BEC1A0 /* MaterialSymbolsRounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0577A80455FF4981A5D0C042 /* MaterialSymbolsRounded.ttf */; };
 		8DD45EB0B59A419CACF075A6 /* MaterialSymbolsSharp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B074C379CC64743B9E32783 /* MaterialSymbolsSharp.ttf */; };
+		3B8C68AB8BF64CEDB4DFAC74 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59DDA1F2C2214CEEA5CBA434 /* BootSplash.storyboard */; };
+		7D9CEBF6DE904CF6BBBDAB1C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A64D94D3C86B4A07863D2B7B /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		17B26853E45847E4BC87E913 /* MaterialSymbolsOutlined.ttf */ = {isa = PBXFileReference; name = "MaterialSymbolsOutlined.ttf"; path = "../assets/fonts/MaterialSymbolsOutlined.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0577A80455FF4981A5D0C042 /* MaterialSymbolsRounded.ttf */ = {isa = PBXFileReference; name = "MaterialSymbolsRounded.ttf"; path = "../assets/fonts/MaterialSymbolsRounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7B074C379CC64743B9E32783 /* MaterialSymbolsSharp.ttf */ = {isa = PBXFileReference; name = "MaterialSymbolsSharp.ttf"; path = "../assets/fonts/MaterialSymbolsSharp.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		59DDA1F2C2214CEEA5CBA434 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "stockee/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A64D94D3C86B4A07863D2B7B /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "stockee/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				59DDA1F2C2214CEEA5CBA434 /* BootSplash.storyboard */,
+				A64D94D3C86B4A07863D2B7B /* Colors.xcassets */,
 			);
 			name = stockee;
 			sourceTree = "<group>";
@@ -184,6 +190,8 @@
 				D9A174B2CD3F44BBA19F7DF8 /* MaterialSymbolsOutlined.ttf in Resources */,
 				D00E129EA9A540DA89BEC1A0 /* MaterialSymbolsRounded.ttf in Resources */,
 				8DD45EB0B59A419CACF075A6 /* MaterialSymbolsSharp.ttf in Resources */,
+				3B8C68AB8BF64CEDB4DFAC74 /* BootSplash.storyboard in Resources */,
+				7D9CEBF6DE904CF6BBBDAB1C /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

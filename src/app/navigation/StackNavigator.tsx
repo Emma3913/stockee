@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './RootStackParamList';
 // Screens
 import InitialScreen from '../../features/initial/screens/InitialScreen';
 import LoginScreen from '../../features/auth/screens/LoginScreen';
 import RegisterScreen from '../../features/auth/screens/RegisterScreen';
-import SellersScreen from '../../features/sellers/screens/SellersScreen'
+import SellersScreen from '../../features/sellers/screens/SellersScreen';
 
 import HomeScreen from '../../features/initial/screens/HomeScreen';
 import ProductsScreen from '../../features/products/screens/ProductsScreen';
@@ -17,42 +17,45 @@ import { useAuthSessionStore } from '../../features/auth/state/authSession.store
 import CameraScreen from '../../ui/screens/CameraScannerScreen';
 import AddSellerScreen from '../../features/sellers/screens/AddSellerScreen';
 import DetailSeller from '../../features/sellers/screens/DetailSellerScreen';
+import { HomeDrawerNavigator } from './drawer/HomeDrawerNavigator';
+import ShoppingCartScreen from '../../features/shoppingCart/screens/ShoppingCartScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-
 const StackNavigator = () => {
-    const { isAuthenticated } = useAuthSessionStore();
+  const { isAuthenticated } = useAuthSessionStore();
 
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-                animation: 'fade',
-            }}
-        >
-            {isAuthenticated ? (
-                <>
-                    <Stack.Screen name="Home" component={HomeScreen} />
-                    <Stack.Screen name="Selllers" component={SellersScreen} />
-                    <Stack.Screen name="AddSeller" component={AddSellerScreen} />
-                    <Stack.Screen name="DetailSeller" component={DetailSeller} />
-                    <Stack.Screen name="Products" component={ProductsScreen} />
-                    <Stack.Screen name="AddProducts" component={AddProductsScreen} />
-                    <Stack.Screen name="Inventory" component={InventoryScreen} />
-                    <Stack.Screen name="Sales" component={SalesScreen} />
-                    <Stack.Screen name="Camera" component={CameraScreen} />
-                </>
-            ) : (
-                <>
-                    <Stack.Screen name="Initial" component={InitialScreen} />
-                    <Stack.Screen name="Login" component={LoginScreen} />
-                    <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-                    <Stack.Screen name="Register" component={RegisterScreen} />
-                </>
-            )}
-        </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+      }}
+    >
+      {isAuthenticated ? (
+        <>
+          {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+          <Stack.Screen name="Home" component={HomeDrawerNavigator} />
+          <Stack.Screen name="Selllers" component={SellersScreen} />
+          <Stack.Screen name="AddSeller" component={AddSellerScreen} />
+          <Stack.Screen name="DetailSeller" component={DetailSeller} />
+          <Stack.Screen name="Products" component={ProductsScreen} />
+          <Stack.Screen name="AddProducts" component={AddProductsScreen} />
+          <Stack.Screen name="Inventory" component={InventoryScreen} />
+          <Stack.Screen name="Sales" component={SalesScreen} />
+          <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="Initial" component={InitialScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
 };
 
-export default StackNavigator
+export default StackNavigator;

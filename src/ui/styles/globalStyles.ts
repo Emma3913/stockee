@@ -301,7 +301,7 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 16,
   },
   addButton: {
-    backgroundColor: globalColors.primary,
+    backgroundColor: globalColors.secondary,
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
@@ -561,60 +561,97 @@ export const globalStyles = StyleSheet.create({
   // -------------------------------------
   // HomeScreen
 
-  containerOptions: {
+  container: {
     flex: 1,
     backgroundColor: globalColors.lightgray,
-    padding: 10,
-    // justifyContent: 'center',
-    // alignContent: 'center',
+    padding: 12,
   },
-  header: {
-    backgroundColor: globalColors.light,
+
+  headerContainer: {
+    backgroundColor: globalColors.semidark,
     borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    padding: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 20,
   },
-  // title: {
-  //   fontSize: 28,
-  //   fontWeight: 'bold',
-  //   color: '#333',
-  //   marginBottom: 8,
-  // },
-  // subtitle: {
-  //   fontSize: 16,
-  //   color: '#666',
-  // },
+
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+
+  avatar: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+  },
+
+  userName: {
+    fontWeight: '700',
+    fontSize: 16,
+  },
+
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 16,
     justifyContent: 'space-between',
   },
-  cardOptions: {
-    width: '48%',
-    backgroundColor: globalColors.primary,
-    borderRadius: 12,
-    padding: 24,
-    marginBottom: 16,
+
+  cardFeatures: {
+    width: '48%', // <-- GRID FUNCIONANDO
+    height: 160,
+    // backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 14,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    // borderWidth: 2,
+
+    // sombra
+    elevation: 4,
     shadowColor: '#000',
+    shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-  },
-  icon: {
-    fontSize: 48,
-    marginBottom: 12,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
+    shadowRadius: 6,
   },
 
+  iconContainer: {
+    backgroundColor: '#f3f3f3',
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  cardTitle: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#333',
+    textAlign: 'center',
+  },
+
+  tapToView: {
+    fontSize: 12,
+    color: '#555',
+    marginTop: 4,
+  },
+
+  logoutBtn: {
+    marginTop: 25,
+    alignSelf: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    backgroundColor: '#ddd',
+    borderRadius: 12,
+  },
+
+  logoutText: {
+    fontWeight: '700',
+  },
   // HomeScreen
 });

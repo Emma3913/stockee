@@ -1,81 +1,90 @@
-import React, { useCallback, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 import { globalStyles } from '../../../ui/styles/globalStyles';
 import { useAppStore } from '../../store/useStoreApp';
 import { SkeletonCardSellers } from '../components/SkeletonCardSellers';
 import CustomButton from '../../../ui/components/CommonButton';
+import HeaderMenu from '../../../ui/components/HeaderMenu';
 
 const SellersScreen = () => {
-    const [loading, setLoading] = useState(false);
-    const { paginatedSellersInfoResponse, getAllSellersByStore } = useAppStore();
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [loading, setLoading] = useState(false);
+  const { paginatedSellersInfoResponse, getAllSellersByStore } = useAppStore();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const loadSellers = useCallback(async () => {
-        setLoading(true);
-        try {
-            await getAllSellersByStore();
-        } catch (error) {
-            console.error('Error cargando productos:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [getAllSellersByStore]);
+  const loadSellers = useCallback(async () => {
+    setLoading(true);
+    try {
+      await getAllSellersByStore();
+    } catch (error) {
+      console.error('Error cargando productos:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [getAllSellersByStore]);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadSellers();
-        }, [loadSellers]),
-    );
+  useFocusEffect(
+    useCallback(() => {
+      loadSellers();
+    }, [loadSellers]),
+  );
 
-    // const totalItemsFetch = paginatedSellersInfoResponse.data.length;
-    // const skeletonItems = Array.from({ length: totalItemsFetch }).map(
-    // (_, i) => i,
-    // );
+  // const totalItemsFetch = paginatedSellersInfoResponse.data.length;
+  // const skeletonItems = Array.from({ length: totalItemsFetch }).map(
+  // (_, i) => i,
+  // );
 
-    return (
-        <View style={globalStyles.containerEmployeeScreen}>
-            <Text style={globalStyles.title}>Empleados</Text>
-            <Text style={globalStyles.subtitle}>
-                Gestión de Empleados registrados
-            </Text>
+  return (
+    <View style={globalStyles.container}>
+      <HeaderMenu title="Gestión de vendedores" />
 
-            <CustomButton
-                styleButton={globalStyles.addButton}
-                onPressButton={() => navigation.navigate('AddSeller')}
+      <CustomButton
+        styleButton={globalStyles.addButton}
+        onPressButton={() => navigation.navigate('AddSeller')}
+      >
+        <Text style={globalStyles.addButtonText}>Agregar Empleado</Text>
+      </CustomButton>
+
+      {loading ? (
+        <FlatList
+          data={paginatedSellersInfoResponse.data}
+          keyExtractor={item => item.toString()}
+          renderItem={() => <SkeletonCardSellers />}
+          contentContainerStyle={globalStyles.listContent}
+        />
+      ) : (
+        <FlatList
+          data={paginatedSellersInfoResponse.data}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={globalStyles.card}
+              onPress={() =>
+                navigation.navigate('DetailSeller', { idSeller: item.id! })
+              }
             >
-                <Text style={globalStyles.addButtonText}>Agregar Empleado</Text>
-            </CustomButton>
-
-            {loading ? (
-                <FlatList
-                    data={paginatedSellersInfoResponse.data}
-                    keyExtractor={(item) => item.toString()}
-                    renderItem={() => <SkeletonCardSellers />}
-                    contentContainerStyle={globalStyles.listContent}
-                />
-            ) : (
-                <FlatList
-                    data={paginatedSellersInfoResponse.data}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={globalStyles.card}
-                            onPress={() => navigation.navigate('DetailSeller', { idSeller: item.id! })}
-                        >
-                            <View style={globalStyles.cardHeader}>
-                                <Text style={globalStyles.clienteNombre}>{item.nombre}</Text>
-                            </View>
-                            <Text style={globalStyles.clienteEmail}>{item.email}</Text>
-                        </TouchableOpacity>
-                    )}
-                    contentContainerStyle={globalStyles.listContent}
-                />
-            )}
-
-        </View>
-    );
-}
+              <View style={globalStyles.cardHeader}>
+                <Text style={globalStyles.clienteNombre}>{item.nombre}</Text>
+              </View>
+              <Text style={globalStyles.clienteEmail}>{item.email}</Text>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={globalStyles.listContent}
+        />
+      )}
+    </View>
+  );
+};
 
 export default SellersScreen;

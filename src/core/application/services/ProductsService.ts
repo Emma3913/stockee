@@ -8,8 +8,6 @@ import { PaginatedResponse } from '../../domain/types';
 export async function registerNewProduct(
   productoInfo: ProductInfoRequest,
 ): Promise<ProductInfoResponse> {
-  console.log('productoInfo', productoInfo);
-
   try {
     const response = await axiosInstance.post<ProductInfoResponse>(
       'productos/guardar',
@@ -44,9 +42,9 @@ export async function getAllProductsByStore(
   size: number = 5,
 ): Promise<PaginatedResponse<ProductInfoResponse>> {
   try {
-    const response = await axiosInstance.get<PaginatedResponse<ProductInfoResponse>>(
-      `productos?page=${page}&size=${size}`,
-    );
+    const response = await axiosInstance.get<
+      PaginatedResponse<ProductInfoResponse>
+    >(`productos?page=${page}&size=${size}`);
     return response.data;
   } catch (error: any) {
     if (error.response) {

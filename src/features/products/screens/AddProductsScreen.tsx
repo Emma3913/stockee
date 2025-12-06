@@ -18,10 +18,10 @@ const AddProductsScreen = () => {
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState<ModalState>({
     isVisible: false,
-    title: "",
-    description: "",
-    subDescription: "",
-    buttonTitle: "Aceptar",
+    title: '',
+    description: '',
+    subDescription: '',
+    buttonTitle: 'Aceptar',
     modalWithoutButton: false,
     goToAnotherPage: false,
   });
@@ -38,7 +38,7 @@ const AddProductsScreen = () => {
           isVisible: true,
           title: 'Prodcto registrado',
           description: 'El producto se guardo correctamente',
-          buttonTitle: "Aceptar",
+          buttonTitle: 'Aceptar',
           modalWithoutButton: false,
         });
         return;
@@ -49,7 +49,7 @@ const AddProductsScreen = () => {
         isVisible: true,
         title: 'Error al registrar producto',
         description: 'Asegúrate de llenar todos los campos.',
-        buttonTitle: "Aceptar",
+        buttonTitle: 'Aceptar',
         modalWithoutButton: false,
       });
     } finally {
@@ -81,15 +81,12 @@ const AddProductsScreen = () => {
   const goToCameraScreen = () => navigation.navigate('Camera');
 
   const handleCloseModal = () => {
-    setModalData(prev => ({ ...prev, isVisible: false }))
+    setModalData(prev => ({ ...prev, isVisible: false }));
     navigation.navigate('Products');
-  }
+  };
 
   return (
-    <ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.content}
-    >
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       {/* Header */}
       <Text style={styles.headerTitle}>Nuevo Producto</Text>
       <Text style={styles.headerSubtitle}>
@@ -106,7 +103,9 @@ const AddProductsScreen = () => {
             style={styles.input}
             placeholder="Ej: Aceite 10W30"
             value={productInfoRequest.descripcion}
-            onChangeText={v => setProductInfoRequest({ ...productInfoRequest, descripcion: v })}
+            onChangeText={v =>
+              setProductInfoRequest({ ...productInfoRequest, descripcion: v })
+            }
             placeholderTextColor="#A0A0A0"
           />
         </View>
@@ -121,8 +120,11 @@ const AddProductsScreen = () => {
               value={productInfoRequest.codigoBarras}
               readOnly
             />
-            <TouchableOpacity style={styles.iconButton} onPress={goToCameraScreen}>
-              {/* <GoogleIcon name="barcode-scanner" variant="sharp" /> */}
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={goToCameraScreen}
+            >
+              <GoogleIcon name="barcode_scanner" variant="rounded" />
             </TouchableOpacity>
           </View>
         </View>
@@ -135,7 +137,12 @@ const AddProductsScreen = () => {
               placeholder="0"
               value={String(productInfoRequest.stock || '')}
               keyboardType="numeric"
-              onChangeText={v => setProductInfoRequest({ ...productInfoRequest, stock: parseInt(v) || 0 })}
+              onChangeText={v =>
+                setProductInfoRequest({
+                  ...productInfoRequest,
+                  stock: parseInt(v) || 0,
+                })
+              }
               placeholderTextColor="#A0A0A0"
             />
           </View>
@@ -147,7 +154,12 @@ const AddProductsScreen = () => {
               placeholder="0.00"
               value={String(productInfoRequest.precio || '')}
               keyboardType="numeric"
-              onChangeText={v => setProductInfoRequest({ ...productInfoRequest, precio: parseFloat(v) || 0 })}
+              onChangeText={v =>
+                setProductInfoRequest({
+                  ...productInfoRequest,
+                  precio: parseFloat(v) || 0,
+                })
+              }
               placeholderTextColor="#A0A0A0"
             />
           </View>
@@ -158,7 +170,10 @@ const AddProductsScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Imagen del Producto</Text>
 
-        <TouchableOpacity style={styles.secondaryButton} onPress={handleSelectImage}>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={handleSelectImage}
+        >
           <Text style={styles.secondaryButtonText}>Seleccionar imagen</Text>
         </TouchableOpacity>
 
@@ -171,7 +186,11 @@ const AddProductsScreen = () => {
       </View>
 
       {/* Botones */}
-      <CustomButton styleButton={[styles.mainButton, loading && styles.disabled]} disabledButton={loading} onPressButton={handleAddProduct}>
+      <CustomButton
+        styleButton={[styles.mainButton, loading && styles.disabled]}
+        disabledButton={loading}
+        onPressButton={handleAddProduct}
+      >
         <Text style={styles.mainButtonText}>
           {loading ? 'Registrando...' : 'Guardar Producto'}
         </Text>
@@ -180,17 +199,14 @@ const AddProductsScreen = () => {
       <CustomButton styleButton={styles.cancelButton} disabledButton={loading}>
         <Text style={styles.cancelButtonText}>Cancelar</Text>
       </CustomButton>
-      <CustomModal
-        {...modalData}
-        onPressButton={handleCloseModal}
-      />
+      <CustomModal {...modalData} onPressButton={handleCloseModal} />
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F5F5F7",
+    backgroundColor: '#F5F5F7',
   },
   content: {
     padding: 20,
@@ -199,23 +215,23 @@ const styles = StyleSheet.create({
   // Header
   headerTitle: {
     fontSize: 24,
-    fontWeight: "700",
-    color: "#111",
+    fontWeight: '700',
+    color: '#111',
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
     marginBottom: 20,
   },
 
   // Sections
   section: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 18,
     borderRadius: 14,
     marginBottom: 20,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 6,
@@ -224,8 +240,8 @@ const styles = StyleSheet.create({
 
   sectionTitle: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#222",
+    fontWeight: '600',
+    color: '#222',
     marginBottom: 12,
   },
 
@@ -235,36 +251,36 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: "#333",
+    color: '#333',
     marginBottom: 6,
   },
   input: {
-    backgroundColor: "#F8F8F8",
+    backgroundColor: '#F8F8F8',
     borderRadius: 10,
     padding: 14,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderColor: '#E0E0E0',
   },
 
   // Input con ícono a la derecha
   inputWithButton: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   iconButton: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 12,
     borderRadius: 10,
     marginLeft: 8,
     borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderColor: '#E0E0E0',
   },
 
   // Inputs en fila
   rowInputs: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     gap: 10,
   },
   column: {
@@ -273,11 +289,11 @@ const styles = StyleSheet.create({
 
   // Imagen
   previewImage: {
-    width: "100%",
+    width: '100%',
     height: 200,
     marginTop: 12,
     borderRadius: 12,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
 
   // Botones
@@ -285,13 +301,13 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.primary,
     padding: 16,
     borderRadius: 12,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 12,
   },
   mainButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 17,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   disabled: {
     opacity: 0.5,
@@ -300,55 +316,27 @@ const styles = StyleSheet.create({
     padding: 14,
     borderRadius: 12,
     backgroundColor: globalColors.tertiary,
-    alignItems: "center",
+    alignItems: 'center',
   },
   cancelButtonText: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: '500',
   },
 
   secondaryButton: {
-    backgroundColor: "#F1F1F1",
+    backgroundColor: '#F1F1F1',
     padding: 14,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   secondaryButtonText: {
-    color: "#555",
+    color: '#555',
     fontSize: 15,
   },
 });
 
-
 export default AddProductsScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // <ScrollView
 //   style={globalStyles.containerAddEmployeeScreen}
