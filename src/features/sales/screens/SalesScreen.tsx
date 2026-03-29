@@ -77,7 +77,6 @@ const SalesScreen = () => {
   const handleAddToCart = async (codigoBarras: string, cantidad = 1) => {
     setLoading(true);
 
-    // 🔥 Aquí sí guardas lo que se va a enviar
     setAddProductToShoppingCartRequest({
       codigoBarras,
       cantidad,
@@ -154,7 +153,8 @@ const SalesScreen = () => {
             <TextInput
               placeholder="Search.."
               style={styles.searchInput}
-              value={productInfoRequest.codigoBarras}
+              value={search}
+              onChangeText={setSearch}
             />
             <CustomButton
               styleButton={styles.filterBtn}
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     paddingVertical: 1,
     flex: 0.1,
     elevation: 2,
@@ -384,9 +384,9 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 10,
-    marginLeft: 8,
+    padding: 8,
+    // borderRadius: 10,
+    // marginLeft: 8,
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },

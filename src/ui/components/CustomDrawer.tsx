@@ -46,23 +46,23 @@ export function CustomDrawer(props: any) {
       {/* SCROLLABLE CONTENT */}
       <DrawerContentScrollView {...props} style={{ borderRadius: 16 }}>
         {/* WALLET SECTION */}
-        <Text style={styles.sectionTitle}>Wallets & Earnings</Text>
+        <Text style={styles.sectionTitle}>Ajustes</Text>
 
         <TouchableOpacity style={styles.item}>
           <Icon name="account-balance-wallet" size={22} color="#333" />
-          <Text style={styles.itemText}>Wallet Balance</Text>
+          <Text style={styles.itemText}>Perfil usuario</Text>
 
-          <View style={styles.addMoneyBtn}>
+          {/* <View style={styles.addMoneyBtn}>
             <Text style={styles.addMoneyText}>ADD MONEY</Text>
-          </View>
+          </View> */}
         </TouchableOpacity>
 
         {/* OTHERS */}
-        <Text style={styles.sectionTitle}>Others</Text>
+        <Text style={styles.sectionTitle}>Otros</Text>
 
         <TouchableOpacity style={styles.item}>
           <Icon name="calculate" size={22} color="#333" />
-          <Text style={styles.itemText}>Khata</Text>
+          <Text style={styles.itemText}>Tema</Text>
         </TouchableOpacity>
       </DrawerContentScrollView>
 
@@ -108,10 +108,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 2,
     padding: 2,
-    width: '40%',
+    width: '60%',
     borderRadius: 16,
     textAlign: 'center',
     backgroundColor: globalColors.light,
+    alignContent: 'center',
+    alignItems: 'center',
   },
   sectionTitle: {
     marginTop: 20,

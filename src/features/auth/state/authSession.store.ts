@@ -45,7 +45,6 @@ export const useAuthSessionStore = create<AuthSessionState>(set => ({
       token,
       isAuthenticated: !!token,
       isLoading: false,
-      // uuidStore,
     });
   },
 }));

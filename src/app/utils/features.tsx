@@ -2,7 +2,7 @@ import { JSX } from 'react';
 import { GoogleIcon } from '../../ui/components/GoogleIcons';
 import { globalColors } from '../../ui/styles/globalStyles';
 
-type Role = 'ADMIN' | 'SELLER' | 'PROPIETARIO';
+type Role = 'ADMIN' | 'SELLER' | 'PROPIETARIO' | 'VENDEDOR';
 
 type Feature = {
   name: string;
@@ -16,7 +16,7 @@ export const features: Feature[] = [
   {
     name: 'Productos',
     route: 'Products',
-    roles: ['PROPIETARIO', 'ADMIN'],
+    roles: ['PROPIETARIO', 'ADMIN', 'VENDEDOR'],
     icon: <GoogleIcon name="package_2" variant="rounded" size={60} />,
     color: globalColors.quaternary,
   },
@@ -38,7 +38,7 @@ export const features: Feature[] = [
   {
     name: 'Venta',
     route: 'Sales',
-    roles: ['PROPIETARIO', 'ADMIN'],
+    roles: ['PROPIETARIO', 'ADMIN', 'VENDEDOR'],
     icon: <GoogleIcon name="point_of_sale" variant="rounded" size={60} />,
     color: globalColors.primary,
   },

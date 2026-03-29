@@ -2,15 +2,22 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import CartItem from '../components/CartItem';
 import { useCallback, useState } from 'react';
 import { useAppStore } from '../../store/useStoreApp';
-import { useFocusEffect } from '@react-navigation/native';
+import {
+  NavigationProp,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import HeaderMenu from '../../../ui/components/HeaderMenu';
 import { globalColors, globalStyles } from '../../../ui/styles/globalStyles';
 import CustomButton from '../../../ui/components/CommonButton';
 import { ModalState } from '../../../app/types';
 import { GoogleIcon } from '../../../ui/components/GoogleIcons';
+import CustomModal from '../../../ui/components/CustomModal';
+import { RootStackParamList } from '../../../app/navigation/RootStackParamList';
 
 export default function ShoppingCartScreen() {
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [quantity, setQuantity] = useState(0);
   const [modalData, setModalData] = useState<ModalState>({
     isVisible: false,
@@ -70,6 +77,11 @@ export default function ShoppingCartScreen() {
     }
   };
 
+  const handleCloseModal = () => {
+    setModalData(prev => ({ ...prev, isVisible: false }));
+    navigation.navigate('Sales');
+  };
+
   const total = paginatedShoppingCartInfoResponse.data?.info.totalPagar!;
   const discount = 38; // ejemplo
   const finalPayment = total - discount;
@@ -116,6 +128,7 @@ export default function ShoppingCartScreen() {
           <Text style={styles.checkoutButton}>Finalizar compra</Text>
         </CustomButton>
       </View>
+      <CustomModal {...modalData} onPressButton={handleCloseModal} />
     </View>
   );
 }
